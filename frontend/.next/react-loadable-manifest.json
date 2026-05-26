@@ -1,0 +1,68 @@
+{
+  "app\\page.tsx -> @/components/CorridorHeatmapMatrix": {
+    "id": "app\\page.tsx -> @/components/CorridorHeatmapMatrix",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_CorridorHeatmapMatrix_tsx.js"
+    ]
+  },
+  "app\\page.tsx -> @/components/CorridorMap": {
+    "id": "app\\page.tsx -> @/components/CorridorMap",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_CorridorMap_tsx.js"
+    ]
+  },
+  "app\\page.tsx -> @/components/CostIncomeChart": {
+    "id": "app\\page.tsx -> @/components/CostIncomeChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_CostIncomeChart_tsx.js"
+    ]
+  },
+  "app\\page.tsx -> @/components/Sidebar": {
+    "id": "app\\page.tsx -> @/components/Sidebar",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_Sidebar_tsx.js"
+    ]
+  },
+  "app\\page.tsx -> @/components/VolumeFlowChart": {
+    "id": "app\\page.tsx -> @/components/VolumeFlowChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_VolumeFlowChart_tsx.js"
+    ]
+  },
+  "components\\CorridorMap.tsx -> leaflet": {
+    "id": "components\\CorridorMap.tsx -> leaflet",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_leaflet_dist_leaflet-src_js.js"
+    ]
+  },
+  "components\\Sidebar.tsx -> ./FXMarginChart": {
+    "id": "components\\Sidebar.tsx -> ./FXMarginChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_FXMarginChart_tsx.js"
+    ]
+  },
+  "components\\Sidebar.tsx -> ./PlayerBreakdownChart": {
+    "id": "components\\Sidebar.tsx -> ./PlayerBreakdownChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_PlayerBreakdownChart_tsx.js"
+    ]
+  },
+  "components\\Sidebar.tsx -> ./ProviderChart": {
+    "id": "components\\Sidebar.tsx -> ./ProviderChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_ProviderChart_tsx.js"
+    ]
+  },
+  "components\\Sidebar.tsx -> ./TimelineChart": {
+    "id": "components\\Sidebar.tsx -> ./TimelineChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_TimelineChart_tsx.js"
+    ]
+  },
+  "components\\Sidebar.tsx -> ./VolumeFlowChart": {
+    "id": "components\\Sidebar.tsx -> ./VolumeFlowChart",
+    "files": [
+      "static/chunks/_app-pages-browser_src_components_VolumeFlowChart_tsx.js"
+    ]
+  }
+}

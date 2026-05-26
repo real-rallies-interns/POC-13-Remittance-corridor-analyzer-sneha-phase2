@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   CINEMATIC RAIL BRIEF — Pillar I: Financial Rail Deep DNA
+   Background: cold obsidian with slate-blue undertone
+   Luminance < 10% — accents pop, text perfectly legible
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Deep DNA — Financial Rail tinted dark (NOT pure black) */
+  --rr-bg:        #060d1a;   /* deep navy-obsidian, blue-tinted             */
+  --rr-surface:   #0b1628;   /* surface layer — slate-blue undertone        */
+  --rr-surface2:  #0f1f35;   /* elevated surface for cards                  */
+  --rr-border:    #1a2d4a;   /* border — blue-slate tint                    */
+  --rr-border2:   rgba(56,189,248,0.15); /* accent border                   */
+
+  /* Accent palette */
+  --rr-cyan:      #38BDF8;
+  --rr-indigo:    #818CF8;
+  --rr-green:     #34D399;
+  --rr-amber:     #FBBF24;
+  --rr-red:       #F87171;
+
+  /* FIX: was #64748B (too dark on #060d1a bg) → now #94A3B8 (slate-400, readable) */
+  --rr-muted:     #94A3B8;
+
+  /* FIX: primary text bumped from #E2E8F0 to pure white for maximum legibility */
+  --rr-text:      #F1F5F9;
+
+  --rr-font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --rr-font-mono: 'IBM Plex Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--rr-bg);
+  color: var(--rr-text);
+  font-family: var(--rr-font-sans);
+  letter-spacing: -0.01em;
+}
+
+/* Glass surface uses Financial Rail deep DNA */
+.glass {
+  background: rgba(11, 22, 40, 0.88);
+  border: 1px solid var(--rr-border);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+}
+
+.glass-panel {
+  background: rgba(15, 31, 53, 0.95);
+  border: 1px solid var(--rr-border);
+  border-radius: 8px;
+  backdrop-filter: blur(16px);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+.pulse {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5); }
+  70%  { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+/* Intelligence Panel slide-over animation */
+.panel-slide-enter {
+  animation: slide-in-right 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.panel-slide-exit {
+  animation: slide-out-right 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slide-out-right {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+/* Tooltip theme */
+.rr-tooltip {
+  background: var(--rr-surface) !important;
+  border: 1px solid var(--rr-border) !important;
+  border-radius: 6px !important;
+  color: var(--rr-text) !important;
+  font-family: var(--rr-font-sans) !important;
+  padding: 8px 10px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6) !important;
+}
+.rr-tooltip::before { display: none !important; }
+
+/* Leaflet map dark override to match Financial Rail DNA */
+.leaflet-container {
+  background: #060d1a !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--rr-bg); }
+::-webkit-scrollbar-thumb { background: #1a2d4a; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+
+/* ── Tailwind utility overrides — slate-400 for all muted text ── */
+.text-slate-400 { color: #94A3B8 !important; }
