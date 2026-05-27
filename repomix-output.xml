@@ -1,0 +1,5718 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: Dockerfile, docker-compose.yml, .dockerignore, **/*.dockerfile
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+backend/main.py
+backend/mock_data.json
+backend/requirements.txt
+docker
+frontend/next-env.d.ts
+frontend/next.config.js
+frontend/package.json
+frontend/postcss.config.js
+frontend/src/app/globals.css
+frontend/src/app/layout.tsx
+frontend/src/app/page.tsx
+frontend/src/components/CorridorHeatmapMatrix.tsx
+frontend/src/components/CorridorMap.tsx
+frontend/src/components/CostIncomeChart.tsx
+frontend/src/components/FXMarginChart.tsx
+frontend/src/components/PlayerBreakdownChart.tsx
+frontend/src/components/ProviderChart.tsx
+frontend/src/components/Sidebar.tsx
+frontend/src/components/TimelineChart.tsx
+frontend/src/components/VolumeFlowChart.tsx
+frontend/src/data/mock_data.json
+frontend/src/lib/api.ts
+frontend/src/types/index.ts
+frontend/tailwind.config.js
+frontend/tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="docker">
+
+</file>
+
+<file path="backend/requirements.txt">
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pandas==2.2.2
+numpy==1.26.4
+geopandas==0.14.4
+shapely==2.0.4
+httpx==0.27.0
+python-dotenv==1.0.1
+</file>
+
+<file path="frontend/next-env.d.ts">
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/basic-features/typescript for more information.
+</file>
+
+<file path="frontend/next.config.js">
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Disable React Strict Mode — prevents Leaflet "Map container already initialized" error
+  reactStrictMode: false,
+  output: 'standalone',        // required for Docker multi-stage build
+  env: {
+    NEXT_PUBLIC_API_URL:      process.env.NEXT_PUBLIC_API_URL      || "http://localhost:8000",
+    NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "",
+  },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "*.basemaps.cartocdn.com" },
+      { protocol: "https", hostname: "*.tile.openstreetmap.org" },
+    ],
+  },
+}
+module.exports = nextConfig
+</file>
+
+<file path="frontend/package.json">
+{
+  "name": "remittance-corridor-analyzer",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "14.2.5",
+    "react": "^18",
+    "react-dom": "^18",
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+
+    "tailwindcss": "^3.4.1",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^4.2.1",
+    "@types/leaflet": "^1.9.12",
+
+    "recharts": "^2.12.7",
+    "d3": "^7.9.0",
+    "@types/d3": "^7.4.3",
+
+    "@turf/turf": "^6.5.0",
+
+    "@tanstack/react-table": "^8.19.3",
+
+    "lucide-react": "^0.400.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^2.4.0",
+
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slider": "^1.2.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
+    "class-variance-authority": "^0.7.0"
+  }
+}
+</file>
+
+<file path="frontend/postcss.config.js">
+module.exports = { plugins: { tailwindcss: {}, autoprefixer: {} } }
+</file>
+
+<file path="frontend/src/app/globals.css">
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   CINEMATIC RAIL BRIEF — Pillar I: Financial Rail Deep DNA
+   Background: cold obsidian with slate-blue undertone
+   Luminance < 10% — accents pop, text perfectly legible
+   ───────────────────────────────────────────────────────────── */
+:root {
+  /* Deep DNA — Financial Rail tinted dark (NOT pure black) */
+  --rr-bg:        #060d1a;   /* deep navy-obsidian, blue-tinted             */
+  --rr-surface:   #0b1628;   /* surface layer — slate-blue undertone        */
+  --rr-surface2:  #0f1f35;   /* elevated surface for cards                  */
+  --rr-border:    #1a2d4a;   /* border — blue-slate tint                    */
+  --rr-border2:   rgba(56,189,248,0.15); /* accent border                   */
+
+  /* Accent palette */
+  --rr-cyan:      #38BDF8;
+  --rr-indigo:    #818CF8;
+  --rr-green:     #34D399;
+  --rr-amber:     #FBBF24;
+  --rr-red:       #F87171;
+
+  /* FIX: was #64748B (too dark on #060d1a bg) → now #94A3B8 (slate-400, readable) */
+  --rr-muted:     #94A3B8;
+
+  /* FIX: primary text bumped from #E2E8F0 to pure white for maximum legibility */
+  --rr-text:      #F1F5F9;
+
+  --rr-font-sans: 'Space Grotesk', system-ui, sans-serif;
+  --rr-font-mono: 'IBM Plex Mono', monospace;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--rr-bg);
+  color: var(--rr-text);
+  font-family: var(--rr-font-sans);
+  letter-spacing: -0.01em;
+}
+
+/* Glass surface uses Financial Rail deep DNA */
+.glass {
+  background: rgba(11, 22, 40, 0.88);
+  border: 1px solid var(--rr-border);
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+}
+
+.glass-panel {
+  background: rgba(15, 31, 53, 0.95);
+  border: 1px solid var(--rr-border);
+  border-radius: 8px;
+  backdrop-filter: blur(16px);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.25);
+}
+
+.pulse {
+  animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5); }
+  70%  { box-shadow: 0 0 0 6px rgba(56, 189, 248, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+/* Intelligence Panel slide-over animation */
+.panel-slide-enter {
+  animation: slide-in-right 0.32s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.panel-slide-exit {
+  animation: slide-out-right 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes slide-out-right {
+  from { transform: translateX(0);    opacity: 1; }
+  to   { transform: translateX(100%); opacity: 0; }
+}
+
+/* Tooltip theme */
+.rr-tooltip {
+  background: var(--rr-surface) !important;
+  border: 1px solid var(--rr-border) !important;
+  border-radius: 6px !important;
+  color: var(--rr-text) !important;
+  font-family: var(--rr-font-sans) !important;
+  padding: 8px 10px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.6) !important;
+}
+.rr-tooltip::before { display: none !important; }
+
+/* Leaflet map dark override to match Financial Rail DNA */
+.leaflet-container {
+  background: #060d1a !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--rr-bg); }
+::-webkit-scrollbar-thumb { background: #1a2d4a; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #38BDF8; }
+
+/* ── Tailwind utility overrides — slate-400 for all muted text ── */
+.text-slate-400 { color: #94A3B8 !important; }
+</file>
+
+<file path="frontend/src/app/layout.tsx">
+import type { Metadata } from 'next'
+import './globals.css'
+import 'leaflet/dist/leaflet.css'
+
+export const metadata: Metadata = {
+  title: 'Real Rails – Remittance Corridor Analyzer',
+  description: 'Production intelligence dashboard · Payment Rail · ID 13 · Temporal Archetype',
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body>{children}</body>
+    </html>
+  )
+}
+</file>
+
+<file path="frontend/src/app/page.tsx">
+'use client'
+/**
+ * page.tsx — Cinematic Rail Dashboard
+ * Infocreon · Remittance Corridor Analyzer · ID 13
+ * Cinematic Rail Brief — Level 2
+ *
+ * FIXES:
+ * 1. View tabs (Corridor Routes / Heatmap / Cost vs Income / Volume Flow)
+ *    restored — map stays mounted, only overlay changes.
+ *    Corridor arcs no longer disappear when switching tabs.
+ * 2. Corridor selector tabs at top restored from Phase 1.
+ * 3. Metadata modal (i) now shows:
+ *      Architect · Batch 2 Interns · Stack fields correctly.
+ */
+
+import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import dynamic from 'next/dynamic'
+import type { Corridor } from '@/types'
+import { getCorridors, getHeatmap, getCostIncomeOverlay, getVolumeFlow } from '@/lib/api'
+import MOCK from '@/data/mock_data.json'
+import {
+  Activity, Globe, TrendingUp, AlertCircle, Radio, CloudOff,
+  Info, X, ChevronRight, BarChart2, DollarSign, Layers
+} from 'lucide-react'
+
+// ── Dynamic imports (client-only) ─────────────────────────────────────────
+const CorridorMap = dynamic(() => import('@/components/CorridorMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex flex-col items-center justify-center gap-3"
+      style={{ background: '#060d1a' }}>
+      <Globe className="w-8 h-8 text-rr-cyan animate-pulse" />
+      <p className="text-sm font-mono tracking-wide" style={{ color: '#CBD5E1' }}>LOADING MAP ENGINE</p>
+    </div>
+  ),
+})
+
+const IntelPanel          = dynamic(() => import('@/components/Sidebar'),                { ssr: false })
+const CorridorHeatmapMatrix = dynamic(() => import('@/components/CorridorHeatmapMatrix'), { ssr: false })
+const CostIncomeChart     = dynamic(() => import('@/components/CostIncomeChart'),         { ssr: false })
+const VolumeFlowChart     = dynamic(() => import('@/components/VolumeFlowChart'),         { ssr: false })
+
+// ── View types ────────────────────────────────────────────────────────────
+type ViewMode = 'routes' | 'heatmap' | 'costincome' | 'volumeflow'
+
+// ── View tab config ───────────────────────────────────────────────────────
+const VIEW_TABS: { key: ViewMode; label: string; icon: React.ReactNode }[] = [
+  { key: 'routes',     label: 'Corridor Routes',    icon: <Globe      className="w-3 h-3" /> },
+  { key: 'heatmap',    label: 'Corridor Heatmap',   icon: <Layers     className="w-3 h-3" /> },
+  { key: 'costincome', label: 'Cost vs Income',      icon: <DollarSign className="w-3 h-3" /> },
+  { key: 'volumeflow', label: 'Volume Flow Tracker', icon: <BarChart2  className="w-3 h-3" /> },
+]
+
+export default function Dashboard() {
+  const [corridors,   setCorridors]   = useState<Corridor[]>(MOCK.corridors as Corridor[])
+  const [selectedId,  setSelectedId]  = useState<string | null>(null)
+  const [panelOpen,   setPanelOpen]   = useState(false)
+  const [channel,     setChannel]     = useState<'all' | 'formal' | 'informal'>('all')
+  const [amount,      setAmount]      = useState(200)
+  const [dataSource,  setDataSource]  = useState<string>('frontend_mock')
+  const [heatmapData, setHeatmapData] = useState<any[]>([])
+  const [costIncome,  setCostIncome]  = useState<any[]>([])
+  const [volumeFlow,  setVolumeFlow]  = useState<any>(null)
+  const [metaOpen,    setMetaOpen]    = useState(false)
+  const [viewMode,    setViewMode]    = useState<ViewMode>('routes')
+  const metaRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    getCorridors().then(({ corridors: data, dataSource: src }) => {
+      setCorridors(data)
+      setDataSource(src)
+    })
+    getHeatmap().then(setHeatmapData)
+    getCostIncomeOverlay().then(setCostIncome)
+    getVolumeFlow().then(setVolumeFlow)
+  }, [])
+
+  // Close meta modal on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (metaRef.current && !metaRef.current.contains(e.target as Node)) {
+        setMetaOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const active      = corridors.find(c => c.id === selectedId)
+  const totalVolume = corridors.reduce((s, c) => s + c.volume_bn_usd, 0).toFixed(0)
+  const highRisk    = corridors.filter(c => c.avg_cost_pct > 5).length
+  const isLive      = dataSource === 'World Bank Live'
+
+  function handleSelect(id: string) {
+    setSelectedId(id)
+    setPanelOpen(true)
+  }
+
+  function closePanel() {
+    setPanelOpen(false)
+  }
+
+  return (
+    <div className="flex flex-col h-screen overflow-hidden"
+      style={{ background: '#060d1a' }}>
+
+      {/* ══════════ PILLAR III — INFOCREON HEADER ══════════ */}
+      <header
+        className="flex items-center justify-between px-4 shrink-0"
+        style={{
+          height: '42px',
+          background: 'rgba(6,13,26,0.97)',
+          borderBottom: '1px solid rgba(56,189,248,0.15)',
+          backdropFilter: 'blur(8px)',
+          overflow: 'visible',
+          position: 'relative',
+          zIndex: 100,
+        }}>
+
+        {/* Left: brand */}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-rr-cyan pulse" />
+            <span className="text-[11px] font-mono font-bold text-rr-cyan tracking-[0.18em] uppercase">
+              INFOCREON
+            </span>
+          </div>
+          <span style={{ color: 'rgba(56,189,248,0.3)', fontSize: '12px' }}>·</span>
+          <span className="text-[11px] font-mono tracking-[0.1em] uppercase" style={{ color: '#CBD5E1' }}>
+            REMITTANCE CORRIDOR ANALYZER
+          </span>
+        </div>
+
+        {/* Right: tags + (i) */}
+        <div className="flex items-center gap-4">
+          <span className="text-[10px] font-mono tracking-[0.1em]" style={{ color: '#94A3B8' }}>
+            TEMPORAL · PAYMENT RAIL · ID 13
+          </span>
+
+          <div className="flex items-center gap-1.5 text-[10px] font-mono" style={{ color: '#94A3B8' }}>
+            <TrendingUp className="w-3 h-3 text-rr-green" />
+            <span className="text-rr-cyan font-semibold">${totalVolume}B/yr</span>
+          </div>
+
+          {highRisk > 0 && (
+            <div className="flex items-center gap-1.5 text-rr-amber text-[10px] font-mono">
+              <AlertCircle className="w-3 h-3" />
+              <span>{highRisk} above G20</span>
+            </div>
+          )}
+
+          <div
+            className="flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono"
+            style={{
+              background: isLive ? 'rgba(52,211,153,0.08)' : 'rgba(245,158,11,0.08)',
+              border: `1px solid ${isLive ? 'rgba(52,211,153,0.3)' : 'rgba(245,158,11,0.3)'}`,
+              color: isLive ? '#34D399' : '#F59E0B',
+            }}>
+            {isLive ? <Radio className="w-3 h-3" /> : <CloudOff className="w-3 h-3" />}
+            <span className="ml-1">{isLive ? 'LIVE' : 'MOCK'}</span>
+          </div>
+
+          <span
+            className="px-2.5 py-0.5 rounded text-[10px] font-mono font-semibold"
+            style={{
+              border: '1px solid #38BDF8',
+              color: '#38BDF8',
+              background: 'rgba(56,189,248,0.08)',
+              letterSpacing: '0.1em',
+            }}>
+            FINANCIAL RAIL
+          </span>
+
+          {/* (i) Metadata button — PILLAR III FIX */}
+          <div className="relative" ref={metaRef}>
+            <button
+              onClick={() => setMetaOpen(v => !v)}
+              className="w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200"
+              style={{
+                border: '1px solid rgba(56,189,248,0.3)',
+                background: metaOpen ? 'rgba(56,189,248,0.15)' : 'transparent',
+                color: metaOpen ? '#38BDF8' : '#64748B',
+              }}
+              title="Architect Signature">
+              <Info className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Modal rendered via portal — see bottom of component */}
+          </div>
+        </div>
+      </header>
+
+      {/* ══════════ METRICS BAR ══════════ */}
+      <div
+        className="grid shrink-0"
+        style={{
+          gridTemplateColumns: 'repeat(5, 1fr)',
+          borderBottom: '1px solid rgba(26,45,74,0.8)',
+          background: 'rgba(11,22,40,0.9)',
+        }}>
+        {[
+          { label: 'Total Volume / yr',   value: `$${totalVolume}B`,              color: '#38BDF8', sub: `${corridors.length} corridors`    },
+          { label: 'High-Risk Corridors', value: `${highRisk}`,                   color: '#F87171', sub: 'avg cost > 5%'                    },
+          { label: 'Avg Transfer Cost',   value: `${(corridors.reduce((s,c)=>s+c.avg_cost_pct,0)/corridors.length||1).toFixed(1)}%`, color: '#FBBF24', sub: 'G20 target < 3%' },
+          { label: 'Informal Channel',    value: `${Math.round(corridors.reduce((s,c)=>s+c.informal,0)/corridors.length*100||0)}%`, color: '#818CF8', sub: 'hawala exposure'  },
+          { label: 'Selected Corridor',   value: active ? active.id : '—',         color: '#34D399', sub: active ? `$${active.volume_bn_usd}B · ${active.primary_provider}` : 'click map to select' },
+        ].map((m, i) => (
+          <div key={i} className="px-4 py-2.5"
+            style={{ borderRight: i < 4 ? '1px solid rgba(26,45,74,0.6)' : 'none' }}>
+            <p className="text-[9px] font-mono uppercase tracking-[0.14em] mb-1" style={{ color: '#94A3B8' }}>{m.label}</p>
+            <p className="font-bold text-xl font-mono leading-none" style={{ color: m.color }}>{m.value}</p>
+            <p className="text-[9px] mt-1" style={{ color: '#94A3B8' }}>{m.sub}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ══════════ CORRIDOR SELECTOR TABS (restored from Phase 1) ══════════ */}
+      <div
+        className="shrink-0 flex items-center gap-1 px-3 overflow-x-auto"
+        style={{
+          height: '36px',
+          background: 'rgba(6,13,26,0.9)',
+          borderBottom: '1px solid rgba(26,45,74,0.6)',
+          backdropFilter: 'blur(8px)',
+        }}>
+        <span className="text-[10px] font-mono uppercase tracking-widest mr-2 shrink-0" style={{ color: '#94A3B8' }}>
+          CORRIDORS
+        </span>
+        {corridors.map(c => (
+          <button
+            key={c.id}
+            onClick={() => handleSelect(c.id)}
+            className="shrink-0 px-2.5 py-1 rounded text-[11px] font-mono font-medium transition-all duration-150"
+            style={{
+              background: selectedId === c.id
+                ? 'rgba(56,189,248,0.15)'
+                : 'rgba(26,45,74,0.4)',
+              border: `1px solid ${selectedId === c.id ? 'rgba(56,189,248,0.5)' : 'rgba(26,45,74,0.6)'}`,
+              color: selectedId === c.id ? '#38BDF8' : '#CBD5E1',
+            }}>
+            {c.label}
+            {c.avg_cost_pct > 5 && (
+              <span className="ml-1 text-rr-red text-[8px] font-bold uppercase">HIGH</span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* ══════════ PILLAR II — FULL SCREEN MAP + SLIDE-OVER ══════════ */}
+      <div className="flex flex-1 relative overflow-hidden">
+
+        {/* ── Main stage (100% width when panel closed) ── */}
+        <div className="flex-1 flex flex-col relative overflow-hidden">
+
+          {/* ── VIEW SWITCHER BAR (restored from Phase 1, fixed so map stays mounted) ── */}
+          <div
+            className="shrink-0 flex items-center gap-1 px-4"
+            style={{
+              height: '36px',
+              background: 'rgba(6,13,26,0.85)',
+              borderBottom: '1px solid rgba(26,45,74,0.6)',
+              backdropFilter: 'blur(8px)',
+            }}>
+            <span className="text-[10px] font-mono uppercase tracking-widest mr-3" style={{ color: '#94A3B8' }}>VIEW</span>
+            {VIEW_TABS.map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setViewMode(tab.key)}
+                className="flex items-center gap-1.5 px-3 py-1 rounded text-[11px] font-mono font-medium transition-all duration-150"
+                style={{
+                  background: viewMode === tab.key
+                    ? 'rgba(56,189,248,0.15)'
+                    : 'transparent',
+                  border: `1px solid ${viewMode === tab.key ? 'rgba(56,189,248,0.4)' : 'transparent'}`,
+                  color: viewMode === tab.key ? '#38BDF8' : '#94A3B8',
+                }}>
+                {tab.icon}
+                {tab.label}
+              </button>
+            ))}
+
+            {/* Right side: corridor hint */}
+            {viewMode === 'routes' && (
+              <span className="ml-auto text-[10px] font-mono uppercase tracking-wide" style={{ color: '#94A3B8' }}>
+                ◈ CLICK NODE OR ARC TO OPEN INTELLIGENCE PANEL
+              </span>
+            )}
+            {panelOpen && active && viewMode === 'routes' && (
+              <div className="flex items-center gap-2 ml-3">
+                <ChevronRight className="w-3 h-3 text-rr-cyan" />
+                <span className="text-[10px] font-mono text-rr-cyan">{active.label}</span>
+              </div>
+            )}
+          </div>
+
+          {/* ── Content area — map stays mounted always (FIX for Issue 1) ── */}
+          <div className="flex-1 relative overflow-hidden">
+
+            {/*
+              KEY FIX: CorridorMap is always rendered (never unmounted).
+              Only its visibility changes via CSS. This prevents the
+              Leaflet instance from being destroyed when switching views,
+              which was causing corridors to disappear on return.
+            */}
+            <div
+              className="absolute inset-0"
+              style={{ display: viewMode === 'routes' ? 'block' : 'none' }}>
+              <CorridorMap
+                corridors={corridors}
+                selectedId={selectedId ?? ''}
+                onSelect={handleSelect}
+                heatmapData={heatmapData}
+              />
+
+              {/* Heat intensity legend (only in routes view) */}
+              <div
+                className="absolute bottom-4 left-4 z-10 rounded-lg px-3 py-2.5"
+                style={{
+                  background: 'rgba(6,13,26,0.9)',
+                  border: '1px solid rgba(26,45,74,0.8)',
+                  backdropFilter: 'blur(8px)',
+                }}>
+                <p className="text-[9px] font-mono uppercase tracking-widest mb-2" style={{ color: '#94A3B8' }}>Heat Intensity</p>
+                {[
+                  { color: '#F87171', label: 'Very High  ≥ 0.8' },
+                  { color: '#FBBF24', label: 'High       ≥ 0.6' },
+                  { color: '#38BDF8', label: 'Medium     ≥ 0.4' },
+                  { color: '#818CF8', label: 'Low        < 0.4' },
+                ].map(h => (
+                  <div key={h.label} className="flex items-center gap-2 mb-1">
+                    <div className="w-2 h-2 rounded-full shrink-0" style={{ background: h.color }} />
+                    <span className="text-[9px] font-mono" style={{ color: '#94A3B8' }}>{h.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Source attribution */}
+              <div
+                className="absolute bottom-4 right-4 z-10 px-2.5 py-1.5 rounded"
+                style={{
+                  background: 'rgba(6,13,26,0.85)',
+                  border: '1px solid rgba(26,45,74,0.6)',
+                  backdropFilter: 'blur(4px)',
+                }}>
+                <p className="text-[9px] font-mono" style={{ color: '#94A3B8' }}>
+                  World Bank RPW · ECB Data Portal · Q4 2024
+                </p>
+              </div>
+            </div>
+
+            {/* Heatmap Matrix view */}
+            {viewMode === 'heatmap' && (
+              <div className="absolute inset-0 overflow-auto p-4">
+                <CorridorHeatmapMatrix
+                  corridors={corridors}
+                  selectedId={selectedId ?? undefined}
+                  onSelect={handleSelect}
+                />
+              </div>
+            )}
+
+            {/* Cost vs Income view */}
+            {viewMode === 'costincome' && (
+              <div className="absolute inset-0 overflow-auto p-4">
+                <div className="h-full rounded-lg"
+                  style={{
+                    background: 'rgba(11,22,40,0.6)',
+                    border: '1px solid rgba(26,45,74,0.8)',
+                    minHeight: '400px',
+                  }}>
+                  <div className="px-4 py-3 border-b" style={{ borderColor: 'rgba(26,45,74,0.6)' }}>
+                    <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: '#CBD5E1' }}>
+                      Cost vs Income Overlay — Fee Burden Per Corridor
+                    </p>
+                  </div>
+                  <div className="p-4" style={{ height: 'calc(100% - 48px)' }}>
+                    <CostIncomeChart data={costIncome} />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Volume Flow Tracker view */}
+            {viewMode === 'volumeflow' && (
+              <div className="absolute inset-0 overflow-auto p-4">
+                <div className="h-full rounded-lg"
+                  style={{
+                    background: 'rgba(11,22,40,0.6)',
+                    border: '1px solid rgba(26,45,74,0.8)',
+                    minHeight: '400px',
+                  }}>
+                  <div className="px-4 py-3 border-b" style={{ borderColor: 'rgba(26,45,74,0.6)' }}>
+                    <p className="text-[10px] font-mono uppercase tracking-widest" style={{ color: '#CBD5E1' }}>
+                      Volume Flow Tracker — Corridor Ranking by Annual Flow
+                    </p>
+                  </div>
+                  <div className="p-4" style={{ height: 'calc(100% - 48px)' }}>
+                    <VolumeFlowChart
+                      data={volumeFlow?.flows ?? corridors.map(c => ({
+                        corridor_id:      c.id,
+                        corridor_label:   c.label,
+                        volume_bn_usd:    c.volume_bn_usd,
+                        volume_share_pct: +(c.volume_bn_usd / corridors.reduce((s,x)=>s+x.volume_bn_usd,0) * 100).toFixed(1),
+                        avg_cost_pct:     c.avg_cost_pct,
+                        trend:            c.trend,
+                        formal_bn:        +(c.volume_bn_usd * c.formal).toFixed(2),
+                        informal_bn:      +(c.volume_bn_usd * c.informal).toFixed(2),
+                      }))}
+                      totalBn={volumeFlow?.total_bn_usd ?? +corridors.reduce((s,c)=>s+c.volume_bn_usd,0).toFixed(1)}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ── SLIDE-OVER INTELLIGENCE PANEL ── */}
+        {panelOpen && (
+          <div
+            className="shrink-0 flex flex-col overflow-hidden panel-slide-enter"
+            style={{
+              width: '340px',
+              background: '#0b1628',
+              borderLeft: '1px solid rgba(56,189,248,0.18)',
+            }}>
+            {/* Panel header */}
+            <div
+              className="flex items-center justify-between px-4 shrink-0"
+              style={{
+                height: '42px',
+                borderBottom: '1px solid rgba(26,45,74,0.8)',
+                background: 'rgba(6,13,26,0.7)',
+              }}>
+              <div>
+                <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#94A3B8' }}>
+                  Intelligence Panel
+                </span>
+                {active && (
+                  <p className="text-[11px] font-semibold text-rr-cyan leading-tight">{active.label}</p>
+                )}
+              </div>
+              <button
+                onClick={closePanel}
+                className="w-7 h-7 rounded flex items-center justify-center transition-all duration-200 hover:text-rr-red"
+                style={{
+                  border: '1px solid rgba(26,45,74,0.8)',
+                  background: 'transparent',
+                  color: '#64748B',
+                }}
+                title="Close panel">
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Panel content */}
+            <div className="flex-1 overflow-hidden">
+              {active && (
+                <IntelPanel
+                  corridor={active}
+                  channel={channel}
+                  sendAmount={amount}
+                  onChannelChange={setChannel}
+                  onSendAmountChange={setAmount}
+                />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      
+      {/* ══════════ ARCHITECT SIGNATURE MODAL (Portal — true screen center) ══════════ */}
+      {metaOpen && typeof document !== 'undefined' && createPortal(
+        <div
+          onClick={() => setMetaOpen(false)}
+          style={{
+            position: 'fixed',
+            top: 0, left: 0, right: 0, bottom: 0,
+            zIndex: 99999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'rgba(0,0,0,0.75)',
+            backdropFilter: 'blur(6px)',
+            animation: 'fade-in 0.2s ease',
+          }}>
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '400px',
+              background: '#0b1628',
+              border: '1px solid rgba(56,189,248,0.35)',
+              borderRadius: '14px',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.95)',
+              animation: 'modal-pop 0.28s cubic-bezier(0.34,1.56,0.64,1)',
+            }}>
+
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '18px 24px',
+                background: 'rgba(56,189,248,0.06)',
+                borderBottom: '1px solid rgba(56,189,248,0.15)',
+                borderRadius: '14px 14px 0 0',
+              }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{
+                  width: '6px', height: '6px', borderRadius: '50%',
+                  background: '#38BDF8',
+                  boxShadow: '0 0 6px #38BDF8',
+                }} />
+                <span style={{
+                  fontSize: '10px', fontFamily: 'monospace',
+                  color: '#38BDF8', letterSpacing: '0.16em',
+                  textTransform: 'uppercase', fontWeight: 700,
+                }}>
+                  ◈ Architect Signature
+                </span>
+              </div>
+              <button
+                onClick={() => setMetaOpen(false)}
+                style={{
+                  width: '28px', height: '28px', borderRadius: '50%',
+                  border: '1px solid rgba(248,113,113,0.35)',
+                  background: 'transparent', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#64748B', transition: 'all 0.2s',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'rgba(248,113,113,0.12)'
+                  ;(e.currentTarget as HTMLButtonElement).style.color = '#F87171'
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent'
+                  ;(e.currentTarget as HTMLButtonElement).style.color = '#64748B'
+                }}>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </div>
+
+            {/* Main fields */}
+            <div style={{ padding: '24px 24px 16px' }}>
+              {([
+                { k: 'Architect', v: 'Sneha Sunilkumar',                       color: '#38BDF8', fontSize: '17px', fontWeight: 700 },
+                { k: 'Batch',     v: 'Batch 2 Interns',                        color: '#E2E8F0', fontSize: '13px', fontWeight: 500 },
+                { k: 'Stack',     v: 'Next.js, FastAPI, Tailwind CSS, Leaflet', color: '#E2E8F0', fontSize: '13px', fontWeight: 500 },
+              ] as const).map(({ k, v, color, fontSize, fontWeight }) => (
+                <div key={k} style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  alignItems: 'center', gap: '16px', marginBottom: '16px',
+                }}>
+                  <span style={{
+                    fontSize: '9px', fontFamily: 'monospace',
+                    color: '#38BDF8', opacity: 0.6,
+                    textTransform: 'uppercase', letterSpacing: '0.14em', flexShrink: 0,
+                  }}>{k}</span>
+                  <span style={{ color, fontSize, fontWeight, textAlign: 'right' }}>{v}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div style={{ margin: '0 24px', borderTop: '1px solid rgba(26,45,74,0.9)' }} />
+
+            {/* Extra rows */}
+            <div style={{ padding: '14px 24px' }}>
+              {[
+                { k: 'Project', v: 'Remittance Corridor Analyzer' },
+                { k: 'Rail',    v: 'Payment Rail · Temporal'       },
+                { k: 'Version', v: 'v4.0.0 · Cinematic Rail'      },
+              ].map(({ k, v }) => (
+                <div key={k} style={{
+                  display: 'flex', justifyContent: 'space-between',
+                  alignItems: 'center', marginBottom: '10px',
+                }}>
+                  <span style={{ fontSize: '9px', fontFamily: 'monospace', color: '#64748B' }}>{k}</span>
+                  <span style={{ fontSize: '10px', fontFamily: 'monospace', color: '#94A3B8' }}>{v}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div style={{ padding: '0 24px 20px' }}>
+              <div style={{
+                borderRadius: '8px', padding: '8px',
+                background: 'rgba(56,189,248,0.04)',
+                border: '1px solid rgba(56,189,248,0.08)',
+                textAlign: 'center',
+              }}>
+                <span style={{
+                  fontSize: '8px', fontFamily: 'monospace',
+                  color: '#1E3A5F', letterSpacing: '0.2em', textTransform: 'uppercase',
+                }}>
+                  Infocreon · Financial Rail Intelligence Platform
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>,
+        document.body
+      )}
+
+      {/* ══════════ BOTTOM STATUS BAR (Phase 1 feature restored) ══════════ */}
+      <div
+        className="shrink-0 flex items-center gap-6 px-4"
+        style={{
+          height: '36px',
+          background: 'rgba(6,13,26,0.97)',
+          borderTop: '1px solid rgba(26,45,74,0.8)',
+          backdropFilter: 'blur(8px)',
+        }}>
+        <div className="flex items-center gap-2">
+          <span className="text-[9px] font-mono uppercase tracking-widest" style={{ color: '#64748B' }}>SELECTED</span>
+          <span className="text-[11px] font-mono font-semibold" style={{ color: active ? '#38BDF8' : '#475569' }}>
+            {active ? active.label : '—'}
+          </span>
+        </div>
+        {active && (<>
+          <div className="w-px h-4" style={{ background: 'rgba(26,45,74,0.8)' }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono" style={{ color: '#64748B' }}>Volume / yr</span>
+            <span className="text-[11px] font-mono font-bold" style={{ color: '#E2E8F0' }}>${active.volume_bn_usd}B</span>
+          </div>
+          <div className="w-px h-4" style={{ background: 'rgba(26,45,74,0.8)' }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono" style={{ color: '#64748B' }}>Avg Transfer Cost</span>
+            <span className="text-[11px] font-mono font-bold" style={{ color: active.avg_cost_pct > 5 ? '#FBBF24' : '#34D399' }}>
+              {active.avg_cost_pct}%
+            </span>
+            <span className="text-[9px] font-mono" style={{ color: active.avg_cost_pct > 5 ? '#FBBF24' : '#34D399' }}>
+              {active.avg_cost_pct > 5 ? 'above G20' : 'G20 compliant'}
+            </span>
+          </div>
+          <div className="w-px h-4" style={{ background: 'rgba(26,45,74,0.8)' }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono" style={{ color: '#64748B' }}>Formal Channel</span>
+            <span className="text-[11px] font-mono font-bold" style={{ color: '#34D399' }}>{Math.round(active.formal * 100)}%</span>
+          </div>
+          <div className="w-px h-4" style={{ background: 'rgba(26,45,74,0.8)' }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono" style={{ color: '#64748B' }}>Informal Channel</span>
+            <span className="text-[11px] font-mono font-bold" style={{ color: '#FBBF24' }}>{Math.round(active.informal * 100)}%</span>
+          </div>
+          <div className="w-px h-4" style={{ background: 'rgba(26,45,74,0.8)' }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono" style={{ color: '#64748B' }}>Top Provider</span>
+            <span className="text-[11px] font-mono font-semibold" style={{ color: '#818CF8' }}>{active.primary_provider}</span>
+          </div>
+          <div className="w-px h-4" style={{ background: 'rgba(26,45,74,0.8)' }} />
+          <div className="flex items-center gap-1.5">
+            <span className="text-[9px] font-mono" style={{ color: '#64748B' }}>Trend</span>
+            <span className="text-[11px] font-mono font-semibold" style={{
+              color: active.trend === 'up' ? '#34D399' : active.trend === 'down' ? '#F87171' : '#94A3B8'
+            }}>
+              {active.trend === 'up' ? '↑ Growing' : active.trend === 'down' ? '↓ Declining' : '→ Flat'}
+            </span>
+          </div>
+        </>)}
+        {!active && (
+          <span className="text-[10px] font-mono" style={{ color: '#475569' }}>
+            Click a corridor on the map or use the tabs above to select
+          </span>
+        )}
+      </div>
+
+      <style jsx global>{`
+        @keyframes slide-in-down {
+          from { opacity: 0; transform: translateY(-8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes modal-pop {
+          from { opacity: 0; transform: scale(0.92) translateY(12px); }
+          to   { opacity: 1; transform: scale(1)    translateY(0);    }
+        }
+      `}</style>
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/components/ProviderChart.tsx">
+'use client'
+/**
+ * ProviderChart.tsx
+ * Provider fee benchmarking — intelligence layer shows vs regional average.
+ * Uses Recharts (protocol requirement).
+ *
+ * FIX: ReferenceLine label `position` changed from 'insideTopRight' to
+ *      'insideBottomRight' — 'insideTopRight' places the label outside the
+ *      chart bounds when bars are short, making it invisible.
+ */
+import { useMemo } from 'react'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell, ReferenceLine, ResponsiveContainer } from 'recharts'
+import type { Provider } from '@/types'
+
+export default function ProviderChart({ providers }: { providers: Provider[] }) {
+  const sorted = useMemo(() => [...providers].sort((a, b) => (a.fee_usd ?? 0) - (b.fee_usd ?? 0)), [providers])
+  const avg    = sorted.reduce((s, p) => s + (p.fee_usd ?? 0), 0) / (sorted.length || 1)
+
+  const Tip = ({ active, payload }: any) => {
+    if (!active || !payload?.length) return null
+    const p: Provider = payload[0].payload
+    return (
+      <div className="glass p-3 text-xs min-w-[165px]">
+        <p className="text-rr-cyan font-semibold mb-1.5">{p.name}</p>
+        <div className="space-y-0.5 text-rr-muted">
+          <div className="flex justify-between"><span>Type</span>     <span className="text-rr-text">{p.type}</span></div>
+          <div className="flex justify-between"><span>Fee</span>      <span className="text-rr-text font-mono">${p.fee_usd?.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span>Received</span> <span className="text-rr-green font-mono">${p.net_received?.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span>Speed</span>    <span className="text-rr-text">{p.speed_hrs}h</span></div>
+          <div className="flex justify-between"><span>Rating</span>   <span className="text-rr-amber">★ {p.rating}</span></div>
+        </div>
+        <p className="mt-1.5 text-[10px] font-medium" style={{ color: (p.vs_avg_pct ?? 0) <= 0 ? '#34D399' : '#F59E0B' }}>
+          {p.vs_avg_label}
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={sorted} margin={{ top: 4, right: 4, left: -18, bottom: 0 }}>
+        <XAxis dataKey="name" tick={{ fill: '#64748B', fontSize: 9 }} tickLine={false} />
+        <YAxis tick={{ fill: '#64748B', fontSize: 9 }} tickLine={false} tickFormatter={v => `$${v}`} />
+        <Tooltip content={<Tip />} cursor={{ fill: 'rgba(56,189,248,0.04)' }} />
+        <ReferenceLine y={avg} stroke="#818CF8" strokeDasharray="4 4"
+          label={{ value: 'avg', fill: '#818CF8', fontSize: 9, position: 'insideBottomRight' }} />
+        <Bar dataKey="fee_usd" radius={[3, 3, 0, 0]}>
+          {sorted.map(p => (
+            <Cell key={p.id} fill={(p.vs_avg_pct ?? 0) <= 0 ? '#38BDF8' : '#818CF8'} fillOpacity={0.85} />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
+</file>
+
+<file path="frontend/src/components/TimelineChart.tsx">
+'use client'
+/**
+ * TimelineChart.tsx — Temporal Archetype (core feature)
+ * Monthly send/receive volume 2020–2024.
+ * Year boundary reference lines make the time structure immediately readable.
+ * Uses Recharts (protocol requirement).
+ */
+import { useMemo } from 'react'
+import {
+  AreaChart, Area, XAxis, YAxis, CartesianGrid,
+  Tooltip, Legend, ResponsiveContainer, ReferenceLine
+} from 'recharts'
+import type { TimelineRow } from '@/types'
+
+interface Props {
+  data:    TimelineRow[]
+  channel: 'all' | 'formal' | 'informal'
+}
+
+export default function TimelineChart({ data, channel }: Props) {
+  const chartData = useMemo(() => {
+    const map = new Map<string, { 
+      label: string; ym: string; 
+      formal: number; informal: number; 
+      formal_tx: number; informal_tx: number; 
+      avg_tx_usd: number 
+    }>()
+    data.forEach(r => {
+      if (!map.has(r.year_month)) map.set(r.year_month, { 
+        label: r.label, ym: r.year_month, 
+        formal: 0, informal: 0, 
+        formal_tx: 0, informal_tx: 0, 
+        avg_tx_usd: r.avg_tx_usd || 0 
+      })
+      const e = map.get(r.year_month)!
+      if (r.channel === 'formal')   { e.formal   += r.volume_usd; e.formal_tx   += r.tx_count || 0 }
+      if (r.channel === 'informal') { e.informal += r.volume_usd; e.informal_tx += r.tx_count || 0 }
+    })
+    return Array.from(map.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([, v]) => ({ ...v, formal: Math.round(v.formal / 1e6), informal: Math.round(v.informal / 1e6) }))
+  }, [data])
+
+  // Year boundaries for temporal readability
+  const yearMarkers = useMemo(() => {
+    const markers: { label: string; year: string }[] = []
+    const years = ['2021', '2022', '2023', '2024']
+    years.forEach(yr => {
+      const entry = chartData.find(d => d.ym === `${yr}-01`)
+      if (entry) markers.push({ label: entry.label, year: yr })
+    })
+    return markers
+  }, [chartData])
+
+  // COVID dip marker
+  const covidLabel = useMemo(() => {
+    const entry = chartData.find(d => d.ym === '2020-04')
+    return entry?.label ?? null
+  }, [chartData])
+
+  const Tip = ({ active, payload, label }: any) => {
+    if (!active || !payload?.length) return null
+    const total = payload.reduce((s: number, p: any) => s + (p.value || 0), 0)
+    const txCount = payload.reduce((s: number, p: any) => s + (p.payload?.[`${p.name}_tx`] || 0), 0)
+    const avgTx = payload[0]?.payload?.avg_tx_usd
+    return (
+      <div className="glass p-3 text-xs min-w-[180px]">
+        <p className="text-rr-muted mb-2 font-medium">{label}</p>
+        {payload.map((p: any) => (
+          <div key={p.name} className="flex justify-between gap-4 mb-0.5">
+            <span style={{ color: p.color }}>{p.name}</span>
+            <span className="font-mono text-rr-text">${p.value}M</span>
+          </div>
+        ))}
+        <div className="flex justify-between gap-4 mt-1 pt-1 border-t border-rr-border">
+          <span className="text-rr-muted">Total</span>
+          <span className="font-mono text-rr-text font-semibold">${total}M</span>
+        </div>
+        {txCount > 0 && (
+          <div className="flex justify-between gap-4 mt-0.5">
+            <span className="text-rr-muted">Tx Count</span>
+            <span className="font-mono text-rr-cyan">{txCount.toLocaleString()}</span>
+          </div>
+        )}
+        {avgTx && (
+          <div className="flex justify-between gap-4 mt-0.5">
+            <span className="text-rr-muted">Avg Tx</span>
+            <span className="font-mono text-rr-indigo">${avgTx}</span>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -18, bottom: 0 }}>
+        <defs>
+          <linearGradient id="gFormal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%"  stopColor="#38BDF8" stopOpacity={0.35} />
+            <stop offset="95%" stopColor="#38BDF8" stopOpacity={0}    />
+          </linearGradient>
+          <linearGradient id="gInformal" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%"  stopColor="#818CF8" stopOpacity={0.35} />
+            <stop offset="95%" stopColor="#818CF8" stopOpacity={0}    />
+          </linearGradient>
+        </defs>
+
+        <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" vertical={false} />
+        <XAxis
+          dataKey="label"
+          tick={{ fill: '#64748B', fontSize: 9 }}
+          tickLine={false}
+          axisLine={false}
+          interval={5}
+        />
+        <YAxis
+          tick={{ fill: '#64748B', fontSize: 9 }}
+          tickLine={false}
+          axisLine={false}
+          tickFormatter={v => `$${v}M`}
+        />
+        <Tooltip content={<Tip />} />
+        <Legend wrapperStyle={{ fontSize: 10, color: '#64748B' }} />
+
+        {/* Year boundary lines — essential for temporal archetype */}
+        {yearMarkers.map(({ label, year }) => (
+          <ReferenceLine
+            key={year}
+            x={label}
+            stroke="#38BDF840"
+            strokeWidth={1}
+            label={{ value: year, fill: '#38BDF870', fontSize: 9, position: 'insideTopLeft' }}
+          />
+        ))}
+
+        {/* COVID dip marker */}
+        {covidLabel && (
+          <ReferenceLine
+            x={covidLabel}
+            stroke="#F59E0B60"
+            strokeDasharray="3 3"
+            strokeWidth={1}
+            label={{ value: 'COVID', fill: '#F59E0B90', fontSize: 8, position: 'insideTopRight' }}
+          />
+        )}
+
+        {(channel === 'all' || channel === 'formal') && (
+          <Area type="monotone" dataKey="formal" name="Formal"
+            stroke="#38BDF8" strokeWidth={2} fill="url(#gFormal)"
+            dot={false} activeDot={{ r: 3, fill: '#38BDF8' }} />
+        )}
+        {(channel === 'all' || channel === 'informal') && (
+          <Area type="monotone" dataKey="informal" name="Informal"
+            stroke="#818CF8" strokeWidth={2} fill="url(#gInformal)"
+            dot={false} activeDot={{ r: 3, fill: '#818CF8' }} />
+        )}
+      </AreaChart>
+    </ResponsiveContainer>
+  )
+}
+</file>
+
+<file path="frontend/src/types/index.ts">
+export interface Corridor {
+  id: string
+  label: string
+  from_name: string
+  from_lat: number
+  from_lng: number
+  to_name: string
+  to_lat: number
+  to_lng: number
+  volume_bn_usd: number
+  avg_cost_pct: number
+  trend: 'up' | 'down' | 'flat'
+  primary_provider: string
+  formal: number
+  informal: number
+  // v4.0 new fields
+  heat_intensity?:        number
+  sender_avg_income_usd?: number
+  fee_pct_of_income?:     number
+}
+
+export interface Provider {
+  id: string
+  name: string
+  type: string
+  player_type?: string
+  fee_pct: number
+  fee_flat: number
+  speed_hrs: number
+  rating: number
+  fx_margin?: number
+  advertised_fee_label?: string
+  hidden_spread?: number
+  total_true_cost_pct?: number
+  corridor_id?: string
+  fee_usd?: number
+  net_received?: number
+  vs_avg_pct?: number
+  vs_avg_label?: string
+}
+
+export interface TimelineRow {
+  year_month: string
+  label: string
+  channel: 'formal' | 'informal'
+  volume_usd: number
+  tx_count: number
+  avg_tx_usd: number
+}
+
+export interface ChannelRow {
+  corridor_id: string
+  corridor_label: string
+  formal_bn: number
+  informal_bn: number
+  formal_pct: number
+  informal_pct: number
+  hawala_risk: 'HIGH' | 'MEDIUM' | 'LOW'
+  g20_compliant: boolean
+}
+
+export interface Regulator {
+  region: string
+  body: string
+  role: string
+  color: string
+}
+
+export interface GovernanceData {
+  regulators: Regulator[]
+  swift_coverage_pct: number
+  avg_settlement_days: number
+}
+
+// v4.0 new types
+export interface HeatmapEntry {
+  corridor_id:    string
+  corridor_label: string
+  from_name:      string
+  to_name:        string
+  from_lat:       number
+  from_lng:       number
+  to_lat:         number
+  to_lng:         number
+  volume_bn_usd:  number
+  heat_intensity: number
+  avg_cost_pct:   number
+  heat_color:     string
+}
+
+export interface CostIncomeEntry {
+  corridor_id:           string
+  corridor_label:        string
+  avg_cost_pct:          number
+  sender_avg_income_usd: number
+  fee_pct_of_income:     number
+  g20_compliant:         boolean
+  income_bracket:        string
+  burden_level:          'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW'
+}
+
+export interface PlayerEntry {
+  player_type:    string
+  count:          number
+  providers:      string[]
+  avg_fee_pct:    number
+  avg_fx_margin:  number
+  avg_total_cost: number
+  color:          string
+}
+
+export interface FXMarginEntry {
+  provider:         string
+  player_type:      string
+  advertised_fee:   number
+  hidden_spread:    number
+  true_cost:        number
+  fx_margin_pct:    number
+  transparency:     'HIGH' | 'MEDIUM' | 'LOW'
+  advertised_label: string
+  data_type:        string
+}
+
+export interface VolumeFlowEntry {
+  corridor_id:      string
+  corridor_label:   string
+  from_name:        string
+  to_name:          string
+  volume_bn_usd:    number
+  volume_share_pct: number
+  avg_cost_pct:     number
+  trend:            'up' | 'down' | 'flat'
+  formal_bn:        number
+  informal_bn:      number
+}
+</file>
+
+<file path="frontend/tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+</file>
+
+<file path="backend/main.py">
+# ============================================================
+# Real Rails – Remittance Corridor Analyzer
+# FILE: backend/main.py
+# Run: uvicorn main:app --reload --port 8000
+#
+# DATA FLOW (per protocol):
+#   1. Try LIVE World Bank API  → real remittance cost data
+#   2. Try LIVE ECB API         → real FX / payment stats
+#   3. If either fails          → AUTO fallback to mock_data.json
+#   4. Unit economics (tx samples) → always synthetic (no public feed)
+#
+# FEATURES:
+#   1. Corridor Heatmap        — heat_intensity per corridor
+#   2. Cost vs Income Overlay  — fee % vs sender income level
+#   3. Player Breakdown        — Fintech vs Traditional MTO vs Bank
+#   4. FX Margin Visualizer    — hidden spread vs advertised fee
+#   5. Volume Flow Tracker     — total corridor volume flow
+#
+# FIXES:
+#   1. HAS_GEO properly defined via try/except (Pylance fix)
+#   2. remittance_pct_gdp_est uses correct GDP formula
+#   3. mock_data.json load wrapped in try/except
+#   4. pandas .agg() stable syntax
+#   5. CORS allow_origins from .env
+# ============================================================
+
+from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from dotenv import load_dotenv
+import httpx
+import pandas as pd
+import numpy as np
+try:
+    import geopandas as gpd
+    from shapely.geometry import LineString
+    HAS_GEO = True
+except ImportError:
+    HAS_GEO = False
+    gpd = None
+import json, random, io, os, logging
+from typing import Optional
+
+load_dotenv()
+random.seed(42)
+np.random.seed(42)
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("real-rails")
+
+app = FastAPI(title="Real Rails – Remittance Corridor Analyzer", version="4.0.0")
+
+_raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+_origins = [o.strip() for o in _raw_origins.split(",")]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+try:
+    with open("mock_data.json") as f:
+        MOCK = json.load(f)
+except FileNotFoundError:
+    raise RuntimeError(
+        "mock_data.json not found. Run from backend/ directory: "
+        "cd backend && uvicorn main:app --reload"
+    )
+
+MOCK_CORRIDORS       = MOCK["corridors"]
+MOCK_PROVIDERS       = MOCK["providers"]
+MOCK_PLAYER_CATS     = MOCK.get("player_categories", [])
+
+WORLD_BANK_API = os.getenv("WORLD_BANK_API", "https://api.worldbank.org/v2")
+ECB_API        = os.getenv("ECB_API",        "https://data-api.ecb.europa.eu/service")
+
+MONTH_ABBR = ["","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+
+# ════════════════════════════════════════════════════════════
+# LIVE API FETCHERS
+# ════════════════════════════════════════════════════════════
+
+async def fetch_worldbank_remittance_costs() -> list:
+    country_pairs = [
+        ("US", "MX"), ("US", "IN"), ("GB", "NG"),
+        ("DE", "PH"), ("AE", "PK"), ("US", "PH"),
+        ("AE", "IN"), ("US", "CN"), ("FR", "MA"),
+        ("US", "DO"), ("GB", "IN"), ("CA", "IN"),
+        ("AU", "IN"), ("IT", "RO"), ("ES", "EC"),
+    ]
+    results = []
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            for send_iso, recv_iso in country_pairs:
+                url = (
+                    f"{WORLD_BANK_API}/country/{recv_iso}/indicator/BX.TRF.PWKR.DT.GD.ZS"
+                    f"?format=json&mrv=1&per_page=1"
+                )
+                resp = await client.get(url)
+                resp.raise_for_status()
+                data = resp.json()
+                if isinstance(data, list) and len(data) > 1 and data[1]:
+                    point = data[1][0]
+                    results.append({
+                        "send_country": send_iso,
+                        "recv_country": recv_iso,
+                        "remittance_pct_gdp": point.get("value"),
+                        "year": point.get("date"),
+                        "country_name": point.get("country", {}).get("value"),
+                        "source": "World Bank Live"
+                    })
+                    log.info(f"✅ World Bank live data: {send_iso}→{recv_iso}")
+    except Exception as e:
+        log.warning(f"⚠ World Bank API error: {e} — using mock data")
+        return [{"source": "mock_fallback", **c} for c in MOCK_CORRIDORS]
+    return results if results else [{"source": "mock_fallback", **c} for c in MOCK_CORRIDORS]
+
+
+async def fetch_ecb_exchange_rates() -> dict:
+    currency_pairs = ["USD", "GBP", "MXN", "INR", "NGN", "PHP", "PKR", "AED"]
+    rates = {}
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            for currency in currency_pairs:
+                if currency == "USD":
+                    continue
+                url = f"{ECB_API}/data/EXR/D.{currency}.EUR.SP00.A?lastNObservations=1&format=jsondata"
+                resp = await client.get(url)
+                resp.raise_for_status()
+                data = resp.json()
+                try:
+                    obs = data["dataSets"][0]["series"]["0:0:0:0:0"]["observations"]
+                    latest_key = sorted(obs.keys())[-1]
+                    rate = obs[latest_key][0]
+                    rates[currency] = {"rate_vs_eur": rate, "source": "ECB Live"}
+                    log.info(f"✅ ECB live rate: {currency}/EUR = {rate}")
+                except (KeyError, IndexError):
+                    rates[currency] = {"rate_vs_eur": None, "source": "parse_error"}
+    except Exception as e:
+        log.warning(f"⚠ ECB API error: {e} — using mock rates")
+        rates = {
+            "GBP": {"rate_vs_eur": 0.856, "source": "mock_fallback"},
+            "MXN": {"rate_vs_eur": 18.2,  "source": "mock_fallback"},
+            "INR": {"rate_vs_eur": 89.5,  "source": "mock_fallback"},
+            "NGN": {"rate_vs_eur": 1620,  "source": "mock_fallback"},
+            "PHP": {"rate_vs_eur": 61.3,  "source": "mock_fallback"},
+            "PKR": {"rate_vs_eur": 298.0, "source": "mock_fallback"},
+            "AED": {"rate_vs_eur": 3.92,  "source": "mock_fallback"},
+        }
+    return rates
+
+
+async def fetch_worldbank_gdp_per_capita(country_iso: str) -> Optional[float]:
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as client:
+            url = f"{WORLD_BANK_API}/country/{country_iso}/indicator/NY.GDP.PCAP.CD?format=json&mrv=1&per_page=1"
+            resp = await client.get(url)
+            resp.raise_for_status()
+            data = resp.json()
+            if isinstance(data, list) and len(data) > 1 and data[1]:
+                return data[1][0].get("value")
+    except Exception as e:
+        log.warning(f"⚠ World Bank GDP error for {country_iso}: {e}")
+    return None
+
+
+# ════════════════════════════════════════════════════════════
+# SYNTHETIC UNIT ECONOMICS
+# ════════════════════════════════════════════════════════════
+
+def build_synthetic_timeline(corridor_id=None):
+    rows = []
+    targets = [c for c in MOCK_CORRIDORS if corridor_id is None or c["id"] == corridor_id]
+    for c in targets:
+        base = c["volume_bn_usd"] * 1e9 / 12
+        for year in range(2020, 2025):
+            for month in range(1, 13):
+                if year == 2024 and month > 6:
+                    break
+                trend    = 1 + (year - 2020) * 0.045 + np.random.normal(0, 0.02)
+                seasonal = 1 + 0.15 * np.sin((month - 11) * np.pi / 6)
+                vol = base * trend * seasonal
+                for ch, split in [("formal", c["formal"]), ("informal", c["informal"])]:
+                    rows.append({
+                        "corridor_id":    c["id"],
+                        "corridor_label": c["label"],
+                        "year":           year,
+                        "month":          month,
+                        "year_month":     f"{year}-{str(month).zfill(2)}",
+                        "label":          f"{MONTH_ABBR[month]} '{str(year)[2:]}",
+                        "channel":        ch,
+                        "volume_usd":     round(vol * split),
+                        "tx_count":       int(vol * split / random.uniform(250, 350)),
+                        "avg_tx_usd":     round(random.uniform(220, 310), 2),
+                        "data_type":      "synthetic_unit_economics",
+                    })
+    return rows
+
+
+# ════════════════════════════════════════════════════════════
+# GeoDataFrame
+# ════════════════════════════════════════════════════════════
+
+def build_geodataframe():
+    if not HAS_GEO:
+        return None
+    records = []
+    for c in MOCK_CORRIDORS:
+        records.append({
+            **c,
+            "geometry": LineString([
+                (c["from_lng"], c["from_lat"]),
+                (c["to_lng"],   c["to_lat"])
+            ])
+        })
+    return gpd.GeoDataFrame(records, crs="EPSG:4326")
+
+CORRIDOR_GDF = build_geodataframe()
+
+
+# ════════════════════════════════════════════════════════════
+# EXISTING API ROUTES
+# ════════════════════════════════════════════════════════════
+
+@app.get("/api/health")
+def health():
+    return {
+        "status": "ok",
+        "project": "Remittance Corridor Analyzer",
+        "version": "4.0.0",
+        "id": 13,
+        "features": [
+            "corridor-heatmap",
+            "cost-income-overlay",
+            "player-breakdown",
+            "fx-margin-visualizer",
+            "volume-flow-tracker",
+        ],
+        "corridors": len(MOCK_CORRIDORS),
+    }
+
+
+@app.get("/api/corridors")
+async def get_corridors():
+    wb_data = await fetch_worldbank_remittance_costs()
+    is_live = wb_data and wb_data[0].get("source") != "mock_fallback"
+
+    recv_iso_map = {
+        "US-MX": "MX", "US-IN": "IN", "UK-NG": "NG",
+        "EU-PH": "PH", "UAE-PK": "PK", "US-PH": "PH",
+        "UAE-IN": "IN", "US-CN": "CN", "FR-MA": "MA",
+        "US-DO": "DO", "UK-IN": "IN", "CA-IN": "IN",
+        "AU-IN": "IN", "IT-RO": "RO", "ES-EC": "EC",
+    }
+
+    corridors = []
+    for c in MOCK_CORRIDORS:
+        enriched = dict(c)
+        iso = recv_iso_map.get(c["id"])
+        if iso:
+            gdp = await fetch_worldbank_gdp_per_capita(iso)
+            if gdp:
+                enriched["recv_gdp_per_capita_usd"] = round(gdp, 2)
+                migrant_pop_proxy = 1_000_000
+                recv_gdp_total_est = gdp * migrant_pop_proxy
+                enriched["remittance_pct_gdp_est"] = round(
+                    (c["volume_bn_usd"] * 1e9) / recv_gdp_total_est * 100, 2
+                )
+                enriched["gdp_source"] = "World Bank Live"
+            else:
+                enriched["recv_gdp_per_capita_usd"] = None
+                enriched["remittance_pct_gdp_est"]  = None
+                enriched["gdp_source"] = "unavailable"
+        enriched["corridor_data_source"] = "World Bank Live" if is_live else "mock_fallback"
+        corridors.append(enriched)
+
+    return {"corridors": corridors, "data_source": "World Bank Live" if is_live else "mock_fallback"}
+
+
+@app.get("/api/corridors/geojson")
+def get_corridors_geojson():
+    if HAS_GEO and CORRIDOR_GDF is not None:
+        return json.loads(CORRIDOR_GDF.to_json())
+    features = [{
+        "type": "Feature",
+        "geometry": {
+            "type": "LineString",
+            "coordinates": [[c["from_lng"], c["from_lat"]], [c["to_lng"], c["to_lat"]]]
+        },
+        "properties": {k: v for k, v in c.items() if k not in ("from_lat","from_lng","to_lat","to_lng")}
+    } for c in MOCK_CORRIDORS]
+    return {"type": "FeatureCollection", "features": features}
+
+
+@app.get("/api/timeline")
+def get_timeline(
+    corridor: Optional[str] = Query(None),
+    channel:  Optional[str] = Query(None),
+):
+    rows = build_synthetic_timeline(corridor)
+    df   = pd.DataFrame(rows)
+    if channel and channel != "all":
+        df = df[df["channel"] == channel]
+    agg = (
+        df.groupby(["year_month", "label", "channel"])
+          .agg(
+              volume_usd=("volume_usd", "sum"),
+              tx_count=("tx_count", "sum"),
+              avg_tx_usd=("avg_tx_usd", "mean"),
+          )
+          .reset_index()
+    )
+    agg["data_type"] = "synthetic_unit_economics"
+    return agg.to_dict(orient="records")
+
+
+@app.get("/api/cost-analysis")
+def get_cost_analysis(
+    amount: float = Query(200.0),
+    corridor: Optional[str] = Query(None),
+):
+    providers = MOCK_PROVIDERS
+    if corridor:
+        filtered = [p for p in MOCK_PROVIDERS if p.get("corridor_id") == corridor]
+        if filtered:
+            providers = filtered
+
+    results = []
+    for p in providers:
+        fee      = round(p["fee_pct"] / 100 * amount + p["fee_flat"], 2)
+        received = round(amount - fee, 2)
+        results.append({**p, "fee_usd": fee, "net_received": received})
+    avg = sum(r["fee_usd"] for r in results) / len(results)
+    for r in results:
+        diff = round((r["fee_usd"] - avg) / avg * 100, 1)
+        r["vs_avg_pct"]   = diff
+        r["vs_avg_label"] = f"{abs(diff):.1f}% {'above' if diff > 0 else 'below'} regional avg"
+    return sorted(results, key=lambda x: x["fee_usd"])
+
+
+@app.get("/api/fx-rates")
+async def get_fx_rates():
+    rates = await fetch_ecb_exchange_rates()
+    return {"rates": rates, "base_currency": "EUR"}
+
+
+@app.get("/api/informal-vs-formal")
+def get_informal_vs_formal(corridor: Optional[str] = Query(None)):
+    targets = [c for c in MOCK_CORRIDORS if corridor is None or c["id"] == corridor]
+    return [{
+        "corridor_id":    c["id"],
+        "corridor_label": c["label"],
+        "formal_bn":      round(c["volume_bn_usd"] * c["formal"],   2),
+        "informal_bn":    round(c["volume_bn_usd"] * c["informal"], 2),
+        "formal_pct":     round(c["formal"]   * 100, 1),
+        "informal_pct":   round(c["informal"] * 100, 1),
+        "hawala_risk":    "HIGH" if c["informal"] > 0.35 else "MEDIUM" if c["informal"] > 0.2 else "LOW",
+        "g20_compliant":  c["avg_cost_pct"] <= 5,
+    } for c in targets]
+
+
+@app.get("/api/governance")
+def get_governance():
+    return MOCK["governance"]
+
+
+@app.get("/api/download-sample")
+def download_sample():
+    rows = build_synthetic_timeline()
+    df   = pd.DataFrame(rows).head(100)
+    buf  = io.StringIO()
+    df.to_csv(buf, index=False)
+    buf.seek(0)
+    return StreamingResponse(
+        iter([buf.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": "attachment; filename=remittance_sample_data.csv"},
+    )
+
+
+# ════════════════════════════════════════════════════════════
+# NEW FEATURE ENDPOINTS
+# ════════════════════════════════════════════════════════════
+
+# ── 1. CORRIDOR HEATMAP ─────────────────────────────────────
+@app.get("/api/heatmap")
+def get_heatmap():
+    """
+    Corridor Heatmap data.
+    Returns heat_intensity (0-1) and volume for colour coding map arcs.
+    Higher intensity = more volume = warmer colour on map.
+    """
+    return [{
+        "corridor_id":        c["id"],
+        "corridor_label":     c["label"],
+        "from_name":          c["from_name"],
+        "to_name":            c["to_name"],
+        "from_lat":           c["from_lat"],
+        "from_lng":           c["from_lng"],
+        "to_lat":             c["to_lat"],
+        "to_lng":             c["to_lng"],
+        "volume_bn_usd":      c["volume_bn_usd"],
+        "heat_intensity":     c.get("heat_intensity", 0.5),
+        "avg_cost_pct":       c["avg_cost_pct"],
+        "heat_color":         _heat_color(c.get("heat_intensity", 0.5)),
+    } for c in MOCK_CORRIDORS]
+
+
+def _heat_color(intensity: float) -> str:
+    """Map intensity 0-1 to colour: low=indigo, mid=cyan, high=amber/red."""
+    if intensity >= 0.8:  return "#F87171"  # red   — very high volume
+    if intensity >= 0.6:  return "#FBBF24"  # amber — high volume
+    if intensity >= 0.4:  return "#38BDF8"  # cyan  — medium volume
+    return "#818CF8"                         # indigo — low volume
+
+
+# ── 2. COST VS INCOME OVERLAY ───────────────────────────────
+@app.get("/api/cost-income-overlay")
+def get_cost_income_overlay():
+    """
+    Cost vs Income Overlay.
+    Shows remittance fee % vs sender average income level.
+    Reveals which corridors are most burdensome relative to sender income.
+    Data: synthetic income estimates + World Bank cost data.
+    """
+    return [{
+        "corridor_id":            c["id"],
+        "corridor_label":         c["label"],
+        "avg_cost_pct":           c["avg_cost_pct"],
+        "sender_avg_income_usd":  c.get("sender_avg_income_usd", 35000),
+        "fee_pct_of_income":      c.get("fee_pct_of_income", 10.0),
+        "g20_compliant":          c["avg_cost_pct"] <= 5,
+        "income_bracket":         _income_bracket(c.get("sender_avg_income_usd", 35000)),
+        "burden_level":           _burden_level(c.get("fee_pct_of_income", 10.0)),
+    } for c in MOCK_CORRIDORS]
+
+
+def _income_bracket(income: float) -> str:
+    if income >= 50000: return "High Income"
+    if income >= 35000: return "Middle Income"
+    return "Lower Income"
+
+
+def _burden_level(fee_pct_of_income: float) -> str:
+    if fee_pct_of_income >= 15: return "CRITICAL"
+    if fee_pct_of_income >= 10: return "HIGH"
+    if fee_pct_of_income >= 5:  return "MEDIUM"
+    return "LOW"
+
+
+# ── 3. PLAYER BREAKDOWN ─────────────────────────────────────
+@app.get("/api/player-breakdown")
+def get_player_breakdown(corridor: Optional[str] = Query(None)):
+    """
+    Player Breakdown — Western Union, banks, fintechs.
+    Groups providers by player_type and shows market share + avg cost.
+    """
+    providers = MOCK_PROVIDERS
+    if corridor:
+        filtered = [p for p in MOCK_PROVIDERS if p.get("corridor_id") == corridor]
+        if filtered:
+            providers = filtered
+
+    # Group by player_type
+    groups: dict = {}
+    for p in providers:
+        pt = p.get("player_type", "Other")
+        if pt not in groups:
+            groups[pt] = {"player_type": pt, "providers": [], "avg_fee_pct": 0, "avg_fx_margin": 0, "count": 0}
+        groups[pt]["providers"].append(p["name"])
+        groups[pt]["count"] += 1
+
+    result = []
+    for pt, g in groups.items():
+        pt_providers = [p for p in providers if p.get("player_type") == pt]
+        avg_fee = sum(p["fee_pct"] for p in pt_providers) / len(pt_providers)
+        avg_fx  = sum(p.get("fx_margin", 1.5) for p in pt_providers) / len(pt_providers)
+        avg_total = round(avg_fee + avg_fx, 2)
+        result.append({
+            "player_type":     pt,
+            "count":           g["count"],
+            "providers":       list(set(g["providers"])),
+            "avg_fee_pct":     round(avg_fee, 2),
+            "avg_fx_margin":   round(avg_fx, 2),
+            "avg_total_cost":  avg_total,
+            "color":           _player_color(pt),
+        })
+
+    # Add categories info
+    return {
+        "breakdown": sorted(result, key=lambda x: x["avg_total_cost"]),
+        "categories": MOCK_PLAYER_CATS,
+    }
+
+
+def _player_color(player_type: str) -> str:
+    colors = {
+        "Fintech":         "#38BDF8",
+        "Traditional MTO": "#818CF8",
+        "Bank":            "#34D399",
+        "Mobile Money":    "#FBBF24",
+    }
+    return colors.get(player_type, "#94A3B8")
+
+
+# ── 4. FX MARGIN VISUALIZER ─────────────────────────────────
+@app.get("/api/fx-margin")
+def get_fx_margin(
+    corridor: Optional[str] = Query(None),
+    amount:   float          = Query(200.0),
+):
+    """
+    FX Margin Visualizer — hidden spread vs advertised fee.
+    Shows true cost = advertised flat fee + hidden FX margin.
+    Data: synthetic (no public provider FX margin feed exists).
+    Labeled clearly per protocol.
+    """
+    providers = MOCK_PROVIDERS
+    if corridor:
+        filtered = [p for p in MOCK_PROVIDERS if p.get("corridor_id") == corridor]
+        if filtered:
+            providers = filtered
+
+    result = []
+    for p in providers:
+        fx_margin      = p.get("fx_margin", 1.5)
+        advertised_fee = round(p["fee_pct"] / 100 * amount + p["fee_flat"], 2)
+        hidden_spread  = round(fx_margin / 100 * amount, 2)
+        true_cost      = round(advertised_fee + hidden_spread, 2)
+        result.append({
+            "provider":         p["name"],
+            "player_type":      p.get("player_type", "Other"),
+            "advertised_fee":   advertised_fee,
+            "hidden_spread":    hidden_spread,
+            "true_cost":        true_cost,
+            "fx_margin_pct":    fx_margin,
+            "transparency":     "HIGH" if fx_margin < 0.8 else "MEDIUM" if fx_margin < 2.0 else "LOW",
+            "advertised_label": p.get("advertised_fee_label", "Standard fee"),
+            "data_type":        "synthetic_fx_margin",
+        })
+
+    return sorted(result, key=lambda x: x["true_cost"])
+
+
+# ── 5. VOLUME FLOW TRACKER ──────────────────────────────────
+@app.get("/api/volume-flow")
+def get_volume_flow():
+    """
+    Volume Flow Tracker — total corridor volume ranked.
+    Shows all corridors sorted by volume with flow share %.
+    """
+    total = sum(c["volume_bn_usd"] for c in MOCK_CORRIDORS)
+    result = []
+    for c in MOCK_CORRIDORS:
+        result.append({
+            "corridor_id":    c["id"],
+            "corridor_label": c["label"],
+            "from_name":      c["from_name"],
+            "to_name":        c["to_name"],
+            "volume_bn_usd":  c["volume_bn_usd"],
+            "volume_share_pct": round(c["volume_bn_usd"] / total * 100, 1),
+            "avg_cost_pct":   c["avg_cost_pct"],
+            "trend":          c["trend"],
+            "formal_bn":      round(c["volume_bn_usd"] * c["formal"], 2),
+            "informal_bn":    round(c["volume_bn_usd"] * c["informal"], 2),
+        })
+
+    return {
+        "flows":       sorted(result, key=lambda x: x["volume_bn_usd"], reverse=True),
+        "total_bn_usd": round(total, 1),
+        "corridor_count": len(MOCK_CORRIDORS),
+        "data_source":  "World Bank RPW + Synthetic estimates",
+    }
+</file>
+
+<file path="backend/mock_data.json">
+{
+  "corridors": [
+    {
+      "id": "US-MX",
+      "label": "USA --> Mexico",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "Mexico",
+      "to_lat": 23.63,
+      "to_lng": -102.55,
+      "volume_bn_usd": 61.1,
+      "avg_cost_pct": 3.1,
+      "trend": "up",
+      "primary_provider": "Remitly",
+      "formal": 0.74,
+      "informal": 0.26,
+      "sender_avg_income_usd": 42000,
+      "heat_intensity": 0.95,
+      "fee_pct_of_income": 8.2
+    },
+    {
+      "id": "US-IN",
+      "label": "USA --> India",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 32.7,
+      "avg_cost_pct": 2.4,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.91,
+      "informal": 0.09,
+      "sender_avg_income_usd": 58000,
+      "heat_intensity": 0.72,
+      "fee_pct_of_income": 4.1
+    },
+    {
+      "id": "UK-NG",
+      "label": "UK --> Nigeria",
+      "from_name": "United Kingdom",
+      "from_lat": 55.37,
+      "from_lng": -3.43,
+      "to_name": "Nigeria",
+      "to_lat": 9.08,
+      "to_lng": 8.67,
+      "volume_bn_usd": 21.3,
+      "avg_cost_pct": 4.8,
+      "trend": "flat",
+      "primary_provider": "WorldRemit",
+      "formal": 0.61,
+      "informal": 0.39,
+      "sender_avg_income_usd": 38000,
+      "heat_intensity": 0.58,
+      "fee_pct_of_income": 12.6
+    },
+    {
+      "id": "EU-PH",
+      "label": "EU --> Philippines",
+      "from_name": "Eurozone",
+      "from_lat": 50.85,
+      "from_lng": 4.35,
+      "to_name": "Philippines",
+      "to_lat": 12.87,
+      "to_lng": 121.77,
+      "volume_bn_usd": 14.9,
+      "avg_cost_pct": 3.7,
+      "trend": "up",
+      "primary_provider": "Western Union",
+      "formal": 0.82,
+      "informal": 0.18,
+      "sender_avg_income_usd": 35000,
+      "heat_intensity": 0.45,
+      "fee_pct_of_income": 10.5
+    },
+    {
+      "id": "UAE-PK",
+      "label": "UAE --> Pakistan",
+      "from_name": "UAE",
+      "from_lat": 23.42,
+      "from_lng": 53.84,
+      "to_name": "Pakistan",
+      "to_lat": 30.37,
+      "to_lng": 69.34,
+      "volume_bn_usd": 18.5,
+      "avg_cost_pct": 5.2,
+      "trend": "down",
+      "primary_provider": "MoneyGram",
+      "formal": 0.55,
+      "informal": 0.45,
+      "sender_avg_income_usd": 28000,
+      "heat_intensity": 0.52,
+      "fee_pct_of_income": 18.7
+    },
+    {
+      "id": "US-PH",
+      "label": "USA --> Philippines",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "Philippines",
+      "to_lat": 12.87,
+      "to_lng": 121.77,
+      "volume_bn_usd": 11.2,
+      "avg_cost_pct": 3.3,
+      "trend": "up",
+      "primary_provider": "Remitly",
+      "formal": 0.86,
+      "informal": 0.14,
+      "sender_avg_income_usd": 45000,
+      "heat_intensity": 0.38,
+      "fee_pct_of_income": 7.3
+    },
+    {
+      "id": "UAE-IN",
+      "label": "UAE --> India",
+      "from_name": "UAE",
+      "from_lat": 23.42,
+      "from_lng": 53.84,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 20.1,
+      "avg_cost_pct": 4.2,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.78,
+      "informal": 0.22,
+      "sender_avg_income_usd": 31000,
+      "heat_intensity": 0.62,
+      "fee_pct_of_income": 13.5
+    },
+    {
+      "id": "US-CN",
+      "label": "USA --> China",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "China",
+      "to_lat": 35.86,
+      "to_lng": 104.19,
+      "volume_bn_usd": 16.4,
+      "avg_cost_pct": 6.1,
+      "trend": "down",
+      "primary_provider": "Western Union",
+      "formal": 0.88,
+      "informal": 0.12,
+      "sender_avg_income_usd": 52000,
+      "heat_intensity": 0.48,
+      "fee_pct_of_income": 11.7
+    },
+    {
+      "id": "FR-MA",
+      "label": "France --> Morocco",
+      "from_name": "France",
+      "from_lat": 46.23,
+      "from_lng": 2.21,
+      "to_name": "Morocco",
+      "to_lat": 31.79,
+      "to_lng": -7.09,
+      "volume_bn_usd": 9.8,
+      "avg_cost_pct": 4.1,
+      "trend": "flat",
+      "primary_provider": "WorldRemit",
+      "formal": 0.72,
+      "informal": 0.28,
+      "sender_avg_income_usd": 32000,
+      "heat_intensity": 0.35,
+      "fee_pct_of_income": 12.8
+    },
+    {
+      "id": "US-DO",
+      "label": "USA --> Dominican Republic",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "Dominican Republic",
+      "to_lat": 18.73,
+      "to_lng": -70.16,
+      "volume_bn_usd": 8.2,
+      "avg_cost_pct": 3.5,
+      "trend": "up",
+      "primary_provider": "Remitly",
+      "formal": 0.8,
+      "informal": 0.2,
+      "sender_avg_income_usd": 38000,
+      "heat_intensity": 0.28,
+      "fee_pct_of_income": 9.2
+    },
+    {
+      "id": "UK-IN",
+      "label": "UK --> India",
+      "from_name": "United Kingdom",
+      "from_lat": 55.37,
+      "from_lng": -3.43,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 7.6,
+      "avg_cost_pct": 2.8,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.93,
+      "informal": 0.07,
+      "sender_avg_income_usd": 41000,
+      "heat_intensity": 0.3,
+      "fee_pct_of_income": 6.8
+    },
+    {
+      "id": "CA-IN",
+      "label": "Canada --> India",
+      "from_name": "Canada",
+      "from_lat": 56.13,
+      "from_lng": -106.34,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 6.9,
+      "avg_cost_pct": 2.6,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.94,
+      "informal": 0.06,
+      "sender_avg_income_usd": 47000,
+      "heat_intensity": 0.26,
+      "fee_pct_of_income": 5.5
+    },
+    {
+      "id": "AU-IN",
+      "label": "Australia --> India",
+      "from_name": "Australia",
+      "from_lat": -25.27,
+      "from_lng": 133.77,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 5.4,
+      "avg_cost_pct": 3.0,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.92,
+      "informal": 0.08,
+      "sender_avg_income_usd": 55000,
+      "heat_intensity": 0.22,
+      "fee_pct_of_income": 5.4
+    },
+    {
+      "id": "IT-RO",
+      "label": "Italy --> Romania",
+      "from_name": "Italy",
+      "from_lat": 41.87,
+      "from_lng": 12.56,
+      "to_name": "Romania",
+      "to_lat": 45.94,
+      "to_lng": 24.96,
+      "volume_bn_usd": 4.8,
+      "avg_cost_pct": 2.2,
+      "trend": "flat",
+      "primary_provider": "Wise",
+      "formal": 0.95,
+      "informal": 0.05,
+      "sender_avg_income_usd": 30000,
+      "heat_intensity": 0.18,
+      "fee_pct_of_income": 7.3
+    },
+    {
+      "id": "ES-EC",
+      "label": "Spain --> Ecuador",
+      "from_name": "Spain",
+      "from_lat": 40.46,
+      "from_lng": -3.74,
+      "to_name": "Ecuador",
+      "to_lat": -1.83,
+      "to_lng": -78.18,
+      "volume_bn_usd": 4.2,
+      "avg_cost_pct": 4.5,
+      "trend": "up",
+      "primary_provider": "Western Union",
+      "formal": 0.69,
+      "informal": 0.31,
+      "sender_avg_income_usd": 28000,
+      "heat_intensity": 0.16,
+      "fee_pct_of_income": 16.0
+    }
+  ],
+  "providers": [
+    {
+      "corridor_id": "US-MX",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.8,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.0
+    },
+    {
+      "corridor_id": "US-MX",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.45,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.85
+    },
+    {
+      "corridor_id": "US-MX",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "US-MX",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.9,
+      "fee_flat": 2.99,
+      "speed_hrs": 8,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.4
+    },
+    {
+      "corridor_id": "US-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.35,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.75
+    },
+    {
+      "corridor_id": "US-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.7,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.9
+    },
+    {
+      "corridor_id": "US-IN",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 1.0,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.5
+    },
+    {
+      "corridor_id": "UK-NG",
+      "id": "worldremit",
+      "name": "WorldRemit",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.65,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.4,
+      "fx_margin": 1.8,
+      "advertised_fee_label": "Flat fee",
+      "hidden_spread": 3.6,
+      "total_true_cost_pct": 2.45
+    },
+    {
+      "corridor_id": "UK-NG",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.5,
+      "fee_flat": 5.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.3
+    },
+    {
+      "corridor_id": "UK-NG",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.9,
+      "fee_flat": 2.99,
+      "speed_hrs": 5,
+      "rating": 4.5,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.1
+    },
+    {
+      "corridor_id": "EU-PH",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "EU-PH",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.45,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.85
+    },
+    {
+      "corridor_id": "EU-PH",
+      "id": "worldremit",
+      "name": "WorldRemit",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.7,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.4,
+      "fx_margin": 1.8,
+      "advertised_fee_label": "Flat fee",
+      "hidden_spread": 3.6,
+      "total_true_cost_pct": 2.5
+    },
+    {
+      "corridor_id": "UAE-PK",
+      "id": "moneygram",
+      "name": "MoneyGram",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.5,
+      "fee_flat": 3.99,
+      "speed_hrs": 12,
+      "rating": 3.7,
+      "fx_margin": 2.5,
+      "advertised_fee_label": "Low fee",
+      "hidden_spread": 5.0,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "UAE-PK",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.8,
+      "fee_flat": 5.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.6
+    },
+    {
+      "corridor_id": "UAE-PK",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.55,
+      "fee_flat": 1.0,
+      "speed_hrs": 3,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.95
+    },
+    {
+      "corridor_id": "US-PH",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.75,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.95
+    },
+    {
+      "corridor_id": "US-PH",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.85,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.3,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.35
+    },
+    {
+      "corridor_id": "US-PH",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.3,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.1
+    },
+    {
+      "corridor_id": "UAE-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.4,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.8
+    },
+    {
+      "corridor_id": "UAE-IN",
+      "id": "moneygram",
+      "name": "MoneyGram",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.4,
+      "fee_flat": 3.49,
+      "speed_hrs": 12,
+      "rating": 3.7,
+      "fx_margin": 2.5,
+      "advertised_fee_label": "Low fee",
+      "hidden_spread": 5.0,
+      "total_true_cost_pct": 3.9
+    },
+    {
+      "corridor_id": "UAE-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.8,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.0
+    },
+    {
+      "corridor_id": "US-CN",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.8,
+      "fee_flat": 5.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.6
+    },
+    {
+      "corridor_id": "US-CN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.55,
+      "fee_flat": 1.0,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.95
+    },
+    {
+      "corridor_id": "US-CN",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 1.1,
+      "fee_flat": 2.99,
+      "speed_hrs": 8,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.6
+    },
+    {
+      "corridor_id": "FR-MA",
+      "id": "worldremit",
+      "name": "WorldRemit",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.65,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.4,
+      "fx_margin": 1.8,
+      "advertised_fee_label": "Flat fee",
+      "hidden_spread": 3.6,
+      "total_true_cost_pct": 2.45
+    },
+    {
+      "corridor_id": "FR-MA",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.3,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.1
+    },
+    {
+      "corridor_id": "FR-MA",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.45,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.85
+    },
+    {
+      "corridor_id": "US-DO",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.75,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.95
+    },
+    {
+      "corridor_id": "US-DO",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "US-DO",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.85,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.35
+    },
+    {
+      "corridor_id": "UK-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.35,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.75
+    },
+    {
+      "corridor_id": "UK-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.7,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.9
+    },
+    {
+      "corridor_id": "UK-IN",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "CA-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.3,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.7
+    },
+    {
+      "corridor_id": "CA-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.65,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.85
+    },
+    {
+      "corridor_id": "CA-IN",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.1,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 3.9
+    },
+    {
+      "corridor_id": "AU-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.4,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.8
+    },
+    {
+      "corridor_id": "AU-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.75,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.95
+    },
+    {
+      "corridor_id": "AU-IN",
+      "id": "moneygram",
+      "name": "MoneyGram",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.3,
+      "fee_flat": 3.99,
+      "speed_hrs": 12,
+      "rating": 3.7,
+      "fx_margin": 2.5,
+      "advertised_fee_label": "Low fee",
+      "hidden_spread": 5.0,
+      "total_true_cost_pct": 3.8
+    },
+    {
+      "corridor_id": "IT-RO",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.25,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.65
+    },
+    {
+      "corridor_id": "IT-RO",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.6,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.8
+    },
+    {
+      "corridor_id": "IT-RO",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.0,
+      "fee_flat": 3.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 3.8
+    },
+    {
+      "corridor_id": "ES-EC",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.4,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.2
+    },
+    {
+      "corridor_id": "ES-EC",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.5,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.9
+    },
+    {
+      "corridor_id": "ES-EC",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.85,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.05
+    }
+  ],
+  "governance": {
+    "regulators": [
+      {
+        "region": "EU",
+        "body": "European Central Bank (ECB)",
+        "role": "PSD2 Payment Services Directive oversight",
+        "color": "#818CF8"
+      },
+      {
+        "region": "US",
+        "body": "FinCEN / CFPB",
+        "role": "AML compliance & consumer protection",
+        "color": "#38BDF8"
+      },
+      {
+        "region": "South Asia",
+        "body": "RBI / Bangladesh Bank",
+        "role": "Foreign exchange controls & remittance licensing",
+        "color": "#34D399"
+      },
+      {
+        "region": "Africa",
+        "body": "CBN / BCEAO",
+        "role": "FX limits & mobile money regulation",
+        "color": "#F59E0B"
+      }
+    ],
+    "swift_coverage_pct": 92,
+    "avg_settlement_days": 1.4
+  },
+  "player_categories": [
+    {
+      "type": "Fintech",
+      "color": "#38BDF8",
+      "examples": "Wise, Remitly, WorldRemit, Xoom"
+    },
+    {
+      "type": "Traditional MTO",
+      "color": "#818CF8",
+      "examples": "Western Union, MoneyGram"
+    },
+    {
+      "type": "Bank",
+      "color": "#34D399",
+      "examples": "HSBC, Citibank, Standard Chartered"
+    },
+    {
+      "type": "Mobile Money",
+      "color": "#FBBF24",
+      "examples": "M-Pesa, bKash, GCash"
+    }
+  ]
+}
+</file>
+
+<file path="frontend/src/components/CorridorHeatmapMatrix.tsx">
+'use client'
+/**
+ * CorridorHeatmapMatrix.tsx
+ * Seaborn-style heatmap matrix for Remittance Corridor Analyzer
+ *
+ * Rows    = Corridors (15)
+ * Columns = Metrics (Cost%, Volume, Formal%, Informal%, Speed, Rating)
+ * Cells   = Colour-coded by value intensity + number inside
+ */
+
+import { useMemo } from 'react'
+import type { Corridor } from '@/types'
+
+interface Props {
+  corridors:   Corridor[]
+  selectedId?: string
+  onSelect?:   (id: string) => void
+}
+
+// Metrics definition
+const METRICS = [
+  { key: 'avg_cost_pct',   label: 'Cost %',    unit: '%',  invert: true  },  // lower = better (green)
+  { key: 'volume_bn_usd',  label: 'Volume $B', unit: 'B',  invert: false },  // higher = better
+  { key: 'formal_pct',     label: 'Formal %',  unit: '%',  invert: false },  // higher = better
+  { key: 'informal_pct',   label: 'Informal%', unit: '%',  invert: true  },  // lower = better
+  { key: 'g20_gap',        label: 'G20 Gap',   unit: '%',  invert: true  },  // lower = better
+  { key: 'heat_intensity', label: 'Heat',      unit: '',   invert: false },  // higher = more volume
+]
+
+// Compute derived values per corridor
+function enrichCorridor(c: Corridor) {
+  return {
+    ...c,
+    formal_pct:     +(c.formal   * 100).toFixed(1),
+    informal_pct:   +(c.informal * 100).toFixed(1),
+    g20_gap:        +(Math.max(0, c.avg_cost_pct - 5)).toFixed(1),
+    heat_intensity: (c as any).heat_intensity ?? 0.3,
+  }
+}
+
+// Normalise value 0→1 across all corridors for a metric
+function normalise(val: number, min: number, max: number, invert: boolean): number {
+  if (max === min) return 0.5
+  const n = (val - min) / (max - min)
+  return invert ? 1 - n : n
+}
+
+// Cell colour — dark teal → red spectrum (Seaborn-like on dark bg)
+function cellColor(norm: number): string {
+  // 0 = dark/cool  →  1 = bright/warm
+  const stops = [
+    { t: 0.0,  r: 10,  g: 30,  b: 35  },   // deep teal (low)
+    { t: 0.25, r: 30,  g: 80,  b: 90  },   // teal
+    { t: 0.5,  r: 180, g: 80,  b: 50  },   // orange-red mid
+    { t: 0.75, r: 220, g: 60,  b: 40  },   // red
+    { t: 1.0,  r: 240, g: 20,  b: 20  },   // bright red (high)
+  ]
+  let lo = stops[0], hi = stops[stops.length - 1]
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (norm >= stops[i].t && norm <= stops[i+1].t) {
+      lo = stops[i]; hi = stops[i+1]; break
+    }
+  }
+  const range = hi.t - lo.t || 1
+  const t2    = (norm - lo.t) / range
+  const r     = Math.round(lo.r + (hi.r - lo.r) * t2)
+  const g     = Math.round(lo.g + (hi.g - lo.g) * t2)
+  const b     = Math.round(lo.b + (hi.b - lo.b) * t2)
+  return `rgb(${r},${g},${b})`
+}
+
+// Text colour for readability on cell bg
+function textColor(norm: number): string {
+  return norm > 0.45 ? '#FFFFFF' : '#94A3B8'
+}
+
+export default function CorridorHeatmapMatrix({ corridors, selectedId, onSelect }: Props) {
+  const enriched = useMemo(() => corridors.map(enrichCorridor), [corridors])
+
+  // Compute min/max per metric
+  const ranges = useMemo(() => {
+    return METRICS.map(m => {
+      const vals = enriched.map(c => (c as any)[m.key] ?? 0)
+      return { min: Math.min(...vals), max: Math.max(...vals) }
+    })
+  }, [enriched])
+
+  if (!corridors.length) return (
+    <div className="flex items-center justify-center h-full text-rr-muted text-xs">
+      No corridor data
+    </div>
+  )
+
+  return (
+    <div className="w-full h-full flex flex-col overflow-auto p-2">
+
+      {/* Title */}
+      <div className="mb-3 flex items-center justify-between shrink-0">
+        <div>
+          <p className="text-[10px] font-mono text-rr-muted uppercase tracking-widest">
+            Corridor Intelligence Matrix
+          </p>
+          <p className="text-rr-text text-xs font-medium mt-0.5">
+            15 Corridors × 6 Metrics — Seaborn Heatmap
+          </p>
+        </div>
+        {/* Colour scale legend */}
+        <div className="flex items-center gap-2 text-[9px] text-rr-muted font-mono">
+          <span>Low</span>
+          <div className="flex">
+            {[0, 0.2, 0.4, 0.6, 0.8, 1.0].map(n => (
+              <div key={n} className="w-5 h-3" style={{ background: cellColor(n) }} />
+            ))}
+          </div>
+          <span>High</span>
+        </div>
+      </div>
+
+      {/* Matrix table */}
+      <div className="overflow-auto flex-1">
+        <table className="w-full border-collapse text-xs" style={{ minWidth: '580px' }}>
+
+          {/* Column headers */}
+          <thead>
+            <tr>
+              {/* Row label header */}
+              <th className="text-left py-2 pr-3 text-[9px] font-mono text-rr-muted uppercase tracking-widest"
+                style={{ width: '130px', minWidth: '130px' }}>
+                Corridor
+              </th>
+              {METRICS.map(m => (
+                <th key={m.key}
+                  className="text-center py-2 px-1 text-[9px] font-mono text-rr-muted uppercase tracking-widest"
+                  style={{ minWidth: '68px' }}>
+                  {m.label}
+                  {m.invert && (
+                    <span className="ml-0.5 text-rr-green" title="Lower is better">↓</span>
+                  )}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          {/* Data rows */}
+          <tbody>
+            {enriched.map((c, ri) => {
+              const isSelected = c.id === selectedId
+              return (
+                <tr
+                  key={c.id}
+                  onClick={() => onSelect?.(c.id)}
+                  className="cursor-pointer transition-all duration-150"
+                  style={{
+                    outline: isSelected ? '1px solid #10F5C8' : undefined,
+                    outlineOffset: '-1px',
+                  }}>
+
+                  {/* Row label */}
+                  <td className="py-0.5 pr-3"
+                    style={{
+                      borderRight: '1px solid #0E2A2F',
+                    }}>
+                    <div className="flex items-center gap-1.5">
+                      {isSelected && (
+                        <div className="w-1.5 h-1.5 rounded-full bg-rr-cyan shrink-0" />
+                      )}
+                      <span className={`text-[10px] font-medium truncate ${
+                        isSelected ? 'text-rr-cyan' : 'text-rr-text'
+                      }`}>
+                        {c.label}
+                      </span>
+                    </div>
+                    <p className="text-[8px] text-rr-muted font-mono ml-3">{c.id}</p>
+                  </td>
+
+                  {/* Metric cells */}
+                  {METRICS.map((m, mi) => {
+                    const raw  = (c as any)[m.key] ?? 0
+                    const norm = normalise(raw, ranges[mi].min, ranges[mi].max, m.invert)
+                    const bg   = cellColor(norm)
+                    const fg   = textColor(norm)
+
+                    // Format display value
+                    let display = ''
+                    if (m.key === 'volume_bn_usd') display = `$${raw}`
+                    else if (m.key === 'heat_intensity') display = `${Math.round(raw * 100)}`
+                    else display = `${raw}${m.unit}`
+
+                    return (
+                      <td key={m.key} className="py-0.5 px-0.5 text-center">
+                        <div
+                          className="flex items-center justify-center rounded font-mono font-semibold transition-all duration-200"
+                          style={{
+                            background: bg,
+                            color: fg,
+                            fontSize: '10px',
+                            height: '32px',
+                            minWidth: '60px',
+                            border: isSelected ? '1px solid rgba(16,245,200,0.4)' : '1px solid transparent',
+                          }}>
+                          {display}
+                        </div>
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+
+        {/* Footer note */}
+        <div className="mt-3 flex items-center gap-4 text-[9px] text-rr-muted font-mono">
+          <span>↓ = Lower is better</span>
+          <span>·</span>
+          <span>Data: World Bank RPW · ECB · Synthetic</span>
+          <span>·</span>
+          <span>Click row to select corridor</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/components/CorridorMap.tsx">
+'use client'
+/**
+ * CorridorMap.tsx — v4.2 Cinematic Rail
+ * FIX: mapRef.current null error — corridors now wait for map to be ready
+ */
+import { useEffect, useRef } from 'react'
+import type { Corridor } from '@/types'
+
+interface HeatmapEntry {
+  corridor_id:    string
+  heat_intensity: number
+  heat_color:     string
+  volume_bn_usd:  number
+}
+
+interface Props {
+  corridors:    Corridor[]
+  selectedId:   string
+  onSelect:     (id: string) => void
+  heatmapData?: HeatmapEntry[]
+}
+
+function getHeatColor(intensity: number): string {
+  if (intensity >= 0.8) return '#F87171'
+  if (intensity >= 0.6) return '#FBBF24'
+  if (intensity >= 0.4) return '#38BDF8'
+  return '#818CF8'
+}
+
+function getDimColor(intensity: number): string {
+  if (intensity >= 0.8) return '#7F3535'
+  if (intensity >= 0.6) return '#7A5E1A'
+  if (intensity >= 0.4) return '#1E5F7A'
+  return '#3D4070'
+}
+
+function getCurvedPoints(
+  lat1: number, lng1: number,
+  lat2: number, lng2: number,
+  offset: number
+): [number, number][] {
+  const steps  = 50
+  const midLat = (lat1 + lat2) / 2
+  const midLng = (lng1 + lng2) / 2
+  const dLat   = lat2 - lat1
+  const dLng   = lng2 - lng1
+  const len    = Math.sqrt(dLat * dLat + dLng * dLng) || 1
+  const perpLat = -dLng / len
+  const perpLng =  dLat / len
+  const ctrlLat = midLat + perpLat * offset * len
+  const ctrlLng = midLng + perpLng * offset * len
+  const pts: [number, number][] = []
+  for (let i = 0; i <= steps; i++) {
+    const t  = i / steps
+    const t1 = 1 - t
+    pts.push([
+      t1*t1*lat1 + 2*t1*t*ctrlLat + t*t*lat2,
+      t1*t1*lng1 + 2*t1*t*ctrlLng + t*t*lng2,
+    ])
+  }
+  return pts
+}
+
+const CURVE_OFFSETS: Record<string, number> = {
+  'US-MX':  0.15,
+  'US-IN':  0.22,
+  'US-PH':  0.28,
+  'US-CN':  0.18,
+  'US-DO':  0.12,
+  'UK-NG':  0.20,
+  'UK-IN':  0.15,
+  'EU-PH':  0.20,
+  'UAE-PK': 0.12,
+  'UAE-IN': 0.28,
+  'FR-MA':  0.18,
+  'CA-IN':  0.22,
+  'AU-IN':  0.20,
+  'IT-RO':  0.15,
+  'ES-EC':  0.18,
+}
+
+export default function CorridorMap({ corridors, selectedId, onSelect, heatmapData = [] }: Props) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const mapRef       = useRef<any>(null)
+  const layersRef    = useRef<any[]>([])
+  const mapReadyRef  = useRef<boolean>(false)  // NEW: track when map is truly ready
+
+  // ── Init map once ──────────────────────────────────────────
+  useEffect(() => {
+    if (typeof window === 'undefined' || !containerRef.current) return
+    const el = containerRef.current as any
+    if (el._leaflet_id) {
+      if (mapRef.current) { mapRef.current.remove(); mapRef.current = null }
+      else delete el._leaflet_id
+    }
+    if (mapRef.current) return
+
+    import('leaflet').then(L => {
+      if (!containerRef.current) return
+      const container = containerRef.current as any
+      if (container._leaflet_id) return
+
+      const map = L.map(containerRef.current, {
+        center: [20, 15], zoom: 2,
+        zoomControl: true, attributionControl: false,
+        minZoom: 1, maxZoom: 8,
+      })
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 19,
+      }).addTo(map)
+
+      mapRef.current  = map
+      mapReadyRef.current = true  // FIX: mark map as ready AFTER it's assigned
+
+      // Apply Financial Rail DNA tint
+      const pane = map.getPane('tilePane') as HTMLElement | undefined
+      if (pane) {
+        pane.style.filter = 'hue-rotate(200deg) saturate(0.7) brightness(0.75)'
+      }
+
+      // FIX: draw corridors immediately after map is ready if they're already loaded
+      if (corridors.length > 0) {
+        drawCorridors(L, map)
+      }
+    })
+
+    return () => {
+      mapReadyRef.current = false
+      if (mapRef.current) { mapRef.current.remove(); mapRef.current = null }
+    }
+  }, []) // eslint-disable-line
+
+  // ── Draw corridors whenever data changes ───────────────────
+  function drawCorridors(L: any, map: any) {
+    // Safety guard — never call addTo on null
+    if (!map) return
+
+    layersRef.current.forEach(l => { try { l.remove() } catch {} })
+    layersRef.current = []
+
+    corridors.forEach(c => {
+      const active      = c.id === selectedId
+      const heatEntry   = heatmapData.find(h => h.corridor_id === c.id)
+      const intensity   = heatEntry?.heat_intensity ?? 0.4
+      const heatColor   = getHeatColor(intensity)
+      const color       = active ? heatColor : getDimColor(intensity)
+      const opacity     = active ? 1.0 : 0.5
+      const weight      = active ? 3.5 : 1.5
+      const curveOffset = CURVE_OFFSETS[c.id] ?? 0.2
+
+      const arcPts = getCurvedPoints(c.from_lat, c.from_lng, c.to_lat, c.to_lng, curveOffset)
+
+      const line = L.polyline(arcPts, {
+        color, opacity, weight,
+        dashArray: active ? undefined : '5 8',
+        smoothFactor: 1,
+      }).addTo(map)  // use local `map` param, never mapRef.current directly
+      line.on('click', () => onSelect(c.id))
+      layersRef.current.push(line)
+
+      const costColor = c.avg_cost_pct > 5 ? '#F59E0B' : c.avg_cost_pct > 4 ? '#FBBF24' : '#34D399'
+      const heatLabel = intensity >= 0.8 ? 'Very High' : intensity >= 0.6 ? 'High' : intensity >= 0.4 ? 'Medium' : 'Low'
+      const tip = `
+        <div style="min-width:200px;background:#0b1628;border:1px solid #1a2d4a;
+          border-radius:6px;padding:10px;font-family:'Space Grotesk',sans-serif">
+          <b style="color:${heatColor};font-size:12px">${c.from_name} → ${c.to_name}</b>
+          <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;
+            gap:4px 12px;font-size:10px">
+            <span style="color:#94A3B8">Volume</span>
+            <span style="color:#E2E8F0;font-family:monospace">$${c.volume_bn_usd}B/yr</span>
+            <span style="color:#94A3B8">Avg Cost</span>
+            <span style="color:${costColor};font-family:monospace">${c.avg_cost_pct}%</span>
+            <span style="color:#94A3B8">Formal</span>
+            <span style="color:#34D399;font-family:monospace">${Math.round(c.formal*100)}%</span>
+            <span style="color:#94A3B8">Informal</span>
+            <span style="color:#F59E0B;font-family:monospace">${Math.round(c.informal*100)}%</span>
+            <span style="color:#94A3B8">Provider</span>
+            <span style="color:#818CF8">${c.primary_provider}</span>
+            <span style="color:#94A3B8">Heat Level</span>
+            <span style="color:${heatColor};font-weight:600">${heatLabel}</span>
+          </div>
+        </div>`
+
+      const mid  = arcPts[Math.floor(arcPts.length / 2)]
+      const tipM = L.marker(mid, {
+        icon: L.divIcon({ html: '', className: '', iconSize: [1,1] }),
+        interactive: true, zIndexOffset: -999,
+      }).addTo(map)
+        .bindTooltip(tip, { sticky: false, direction: 'top', offset: [0,-5], opacity: 1 })
+      tipM.on('click', () => onSelect(c.id))
+      layersRef.current.push(tipM)
+
+      const fromM = L.marker([c.from_lat, c.from_lng], {
+        icon: L.divIcon({
+          html: `<div style="width:${active?14:9}px;height:${active?14:9}px;
+            border-radius:50%;background:${color};
+            box-shadow:0 0 ${active?14:5}px ${color};
+            border:2px solid #060d1a;cursor:pointer"></div>`,
+          className: '', iconSize: [14,14], iconAnchor: [7,7],
+        })
+      }).addTo(map)
+      fromM.on('click', () => onSelect(c.id))
+      layersRef.current.push(fromM)
+
+      const toM = L.marker([c.to_lat, c.to_lng], {
+        icon: L.divIcon({
+          html: `<div style="width:${active?9:6}px;height:${active?9:6}px;
+            border-radius:50%;background:${color};
+            opacity:${active?1:0.65};border:1.5px solid #060d1a;cursor:pointer"></div>`,
+          className: '', iconSize: [9,9], iconAnchor: [4,4],
+        })
+      }).addTo(map)
+      toM.on('click', () => onSelect(c.id))
+      layersRef.current.push(toM)
+    })
+  }
+
+  // ── Redraw when corridors/selection changes ────────────────
+  useEffect(() => {
+    if (!mapReadyRef.current || !mapRef.current || corridors.length === 0) return
+    import('leaflet').then(L => {
+      if (!mapRef.current) return  // double-check after async
+      drawCorridors(L, mapRef.current)
+    })
+  }, [corridors, selectedId, heatmapData]) // eslint-disable-line
+
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full"
+      style={{ background: '#060d1a' }}
+    />
+  )
+}
+</file>
+
+<file path="frontend/src/components/CostIncomeChart.tsx">
+'use client'
+/**
+ * CostIncomeChart.tsx
+ * Cost vs Income Overlay — remittance fee % vs sender income level.
+ * Scatter/bubble chart showing burden per corridor.
+ */
+import { ScatterChart, Scatter, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts'
+
+interface CostIncomeData {
+  corridor_id:           string
+  corridor_label:        string
+  avg_cost_pct:          number
+  sender_avg_income_usd: number
+  fee_pct_of_income:     number
+  burden_level:          string
+  g20_compliant:         boolean
+}
+
+const burdenColor = (level: string) => {
+  if (level === 'CRITICAL') return '#F87171'
+  if (level === 'HIGH')     return '#FBBF24'
+  if (level === 'MEDIUM')   return '#38BDF8'
+  return '#34D399'
+}
+
+const Tip = ({ active, payload }: any) => {
+  if (!active || !payload?.length) return null
+  const d = payload[0]?.payload as CostIncomeData
+  return (
+    <div className="glass p-3 text-xs min-w-[180px]">
+      <p className="text-rr-cyan font-semibold mb-1.5">{d?.corridor_label}</p>
+      <div className="space-y-0.5">
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Avg Transfer Cost</span>
+          <span className="font-mono text-rr-text">{d?.avg_cost_pct}%</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Sender Income</span>
+          <span className="font-mono text-rr-text">${d?.sender_avg_income_usd?.toLocaleString()}</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Fee % of Income</span>
+          <span className={`font-mono font-semibold`} style={{ color: burdenColor(d?.burden_level) }}>
+            {d?.fee_pct_of_income}%
+          </span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Burden</span>
+          <span className="font-mono font-semibold" style={{ color: burdenColor(d?.burden_level) }}>
+            {d?.burden_level}
+          </span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">G20 Target</span>
+          <span className={`font-mono font-semibold ${d?.g20_compliant ? 'text-rr-green' : 'text-rr-amber'}`}>
+            {d?.g20_compliant ? '✓ Compliant' : '✗ Above 5%'}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function CostIncomeChart({ data }: { data: CostIncomeData[] }) {
+  if (!data?.length) return (
+    <div className="h-full flex items-center justify-center text-rr-muted text-xs">
+      No data available
+    </div>
+  )
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex items-center gap-3 mb-2 flex-wrap text-[9px]">
+        {[
+          { label: 'Critical', color: '#F87171' },
+          { label: 'High',     color: '#FBBF24' },
+          { label: 'Medium',   color: '#38BDF8' },
+          { label: 'Low',      color: '#34D399' },
+        ].map(b => (
+          <div key={b.label} className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full" style={{ background: b.color }} />
+            <span className="text-rr-muted">{b.label} burden</span>
+          </div>
+        ))}
+      </div>
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart margin={{ top: 4, right: 8, left: -10, bottom: 0 }}>
+          <XAxis
+            dataKey="sender_avg_income_usd"
+            name="Sender Income"
+            tick={{ fill: '#64748B', fontSize: 8 }}
+            tickLine={false}
+            tickFormatter={v => `$${(v/1000).toFixed(0)}k`}
+            label={{ value: 'Sender Income (USD)', fill: '#475569', fontSize: 8, position: 'insideBottom', offset: -2 }}
+          />
+          <YAxis
+            dataKey="avg_cost_pct"
+            name="Transfer Cost %"
+            tick={{ fill: '#64748B', fontSize: 8 }}
+            tickLine={false}
+            tickFormatter={v => `${v}%`}
+          />
+          <Tooltip content={<Tip />} cursor={{ strokeDasharray: '3 3', stroke: '#1F2937' }} />
+          <ReferenceLine y={5} stroke="#FBBF24" strokeDasharray="4 4"
+            label={{ value: 'G20 5% target', fill: '#FBBF24', fontSize: 8, position: 'insideTopRight' }} />
+          <Scatter data={data} fill="#38BDF8">
+            {data.map((d, i) => (
+              <Cell key={i} fill={burdenColor(d.burden_level)} fillOpacity={0.85} />
+            ))}
+          </Scatter>
+        </ScatterChart>
+      </ResponsiveContainer>
+      <p className="text-[9px] text-rr-muted text-center mt-1">
+        Each dot = one corridor · Size reflects volume · Y-axis = transfer cost %
+      </p>
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/components/FXMarginChart.tsx">
+'use client'
+/**
+ * FXMarginChart.tsx
+ * FX Margin Visualizer — hidden spread vs advertised fee.
+ * Stacked bar: advertised fee (bottom) + hidden FX spread (top)
+ */
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts'
+
+interface FXData {
+  provider:        string
+  advertised_fee:  number
+  hidden_spread:   number
+  true_cost:       number
+  fx_margin_pct:   number
+  transparency:    string
+  player_type:     string
+}
+
+const Tip = ({ active, payload, label }: any) => {
+  if (!active || !payload?.length) return null
+  const d = payload[0]?.payload as FXData
+  return (
+    <div className="glass p-3 text-xs min-w-[180px]">
+      <p className="text-rr-cyan font-semibold mb-1.5">{label}</p>
+      <div className="space-y-0.5">
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-green">Advertised Fee</span>
+          <span className="font-mono text-rr-text">${d?.advertised_fee?.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-amber">Hidden FX Spread</span>
+          <span className="font-mono text-rr-amber">${d?.hidden_spread?.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between gap-4 pt-1 border-t border-rr-border mt-1">
+          <span className="text-rr-text font-semibold">True Cost</span>
+          <span className="font-mono text-rr-red font-semibold">${d?.true_cost?.toFixed(2)}</span>
+        </div>
+        <div className="flex justify-between gap-4 mt-1">
+          <span className="text-rr-muted">FX Margin</span>
+          <span className="font-mono text-rr-muted">{d?.fx_margin_pct}%</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Transparency</span>
+          <span className={`font-mono font-semibold ${
+            d?.transparency === 'HIGH' ? 'text-rr-green' :
+            d?.transparency === 'MEDIUM' ? 'text-rr-amber' : 'text-rr-red'
+          }`}>{d?.transparency}</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function FXMarginChart({ data }: { data: FXData[] }) {
+  if (!data?.length) return (
+    <div className="h-full flex items-center justify-center text-rr-muted text-xs">
+      No FX data available
+    </div>
+  )
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex items-center gap-3 mb-2 text-[9px]">
+        <div className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-sm bg-rr-green" />
+          <span className="text-rr-muted">Advertised Fee</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <div className="w-2 h-2 rounded-sm bg-rr-amber" />
+          <span className="text-rr-muted">Hidden FX Spread</span>
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 4, right: 4, left: -18, bottom: 0 }}>
+          <XAxis dataKey="provider" tick={{ fill: '#64748B', fontSize: 8 }} tickLine={false} />
+          <YAxis tick={{ fill: '#64748B', fontSize: 8 }} tickLine={false} tickFormatter={v => `$${v}`} />
+          <Tooltip content={<Tip />} cursor={{ fill: 'rgba(56,189,248,0.04)' }} />
+          <Bar dataKey="advertised_fee" stackId="a" fill="#34D399" radius={[0,0,0,0]} name="Advertised Fee" />
+          <Bar dataKey="hidden_spread"  stackId="a" fill="#FBBF24" radius={[3,3,0,0]} name="Hidden Spread" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/components/PlayerBreakdownChart.tsx">
+'use client'
+/**
+ * PlayerBreakdownChart.tsx
+ * Player Breakdown — Western Union, banks, fintechs.
+ * Shows avg total cost per player type.
+ */
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
+
+interface PlayerData {
+  player_type:    string
+  count:          number
+  providers:      string[]
+  avg_fee_pct:    number
+  avg_fx_margin:  number
+  avg_total_cost: number
+  color:          string
+}
+
+const Tip = ({ active, payload }: any) => {
+  if (!active || !payload?.length) return null
+  const d = payload[0]?.payload as PlayerData
+  return (
+    <div className="glass p-3 text-xs min-w-[180px]">
+      <p className="font-semibold mb-1.5" style={{ color: d?.color }}>{d?.player_type}</p>
+      <div className="space-y-0.5">
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Avg Fee %</span>
+          <span className="font-mono text-rr-text">{d?.avg_fee_pct}%</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Avg FX Margin</span>
+          <span className="font-mono text-rr-amber">{d?.avg_fx_margin}%</span>
+        </div>
+        <div className="flex justify-between gap-4 pt-1 border-t border-rr-border mt-1">
+          <span className="text-rr-text font-semibold">Total Cost</span>
+          <span className="font-mono font-semibold" style={{ color: d?.color }}>{d?.avg_total_cost}%</span>
+        </div>
+        <div className="mt-1.5">
+          <p className="text-rr-muted mb-0.5">Players ({d?.count}):</p>
+          <p className="text-rr-text text-[10px]">{d?.providers?.join(', ')}</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function PlayerBreakdownChart({ data }: { data: PlayerData[] }) {
+  if (!data?.length) return (
+    <div className="h-full flex items-center justify-center text-rr-muted text-xs">
+      No player data available
+    </div>
+  )
+
+  return (
+    <div className="h-full flex flex-col">
+      <p className="text-[9px] text-rr-muted mb-2">Avg total cost % by player type (fee + FX margin)</p>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={data} margin={{ top: 4, right: 4, left: -18, bottom: 0 }}>
+          <XAxis dataKey="player_type" tick={{ fill: '#64748B', fontSize: 8 }} tickLine={false} />
+          <YAxis tick={{ fill: '#64748B', fontSize: 8 }} tickLine={false} tickFormatter={v => `${v}%`} />
+          <Tooltip content={<Tip />} cursor={{ fill: 'rgba(56,189,248,0.04)' }} />
+          <Bar dataKey="avg_total_cost" radius={[3,3,0,0]}>
+            {data.map((d, i) => (
+              <Cell key={i} fill={d.color} fillOpacity={0.85} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/components/Sidebar.tsx">
+'use client'
+/**
+ * Sidebar.tsx — Intelligence Panel (Slide-Over)
+ * Cinematic Rail Brief — v4.1
+ * Now renders as a full slide-over panel with Financial Rail Deep DNA bg
+ *
+ * Section A: Title & High-level Metric
+ * Section B: Why This Matters
+ * Section C: Who Controls the Rail
+ * Section D: Functional Filters & Analysis (5 tabs)
+ * Section E: Download Sample Data
+ */
+import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+import type { Corridor, Provider, TimelineRow, ChannelRow, GovernanceData } from '@/types'
+import {
+  getTimeline, getCostAnalysis, getChannelComparison,
+  getGovernance, getPlayerBreakdown, getFXMargin, getVolumeFlow
+} from '@/lib/api'
+import {
+  Info, Shield, SlidersHorizontal, Download, Zap,
+  Globe, TrendingUp, TrendingDown, Minus,
+  AlertTriangle, CheckCircle, BarChart2, DollarSign
+} from 'lucide-react'
+
+const TimelineChart        = dynamic(() => import('./TimelineChart'),        { ssr: false })
+const ProviderChart        = dynamic(() => import('./ProviderChart'),         { ssr: false })
+const FXMarginChart        = dynamic(() => import('./FXMarginChart'),         { ssr: false })
+const PlayerBreakdownChart = dynamic(() => import('./PlayerBreakdownChart'),  { ssr: false })
+const VolumeFlowChart      = dynamic(() => import('./VolumeFlowChart'),       { ssr: false })
+
+interface Props {
+  corridor:           Corridor | undefined
+  channel:            'all' | 'formal' | 'informal'
+  sendAmount:         number
+  onChannelChange:    (v: 'all' | 'formal' | 'informal') => void
+  onSendAmountChange: (v: number) => void
+}
+
+const RECEIVING_COUNTRY_WAGES: Record<string, { hourlyUSD: number; label: string }> = {
+  'US-MX':  { hourlyUSD: 0.93,  label: 'Mexico'         },
+  'US-IN':  { hourlyUSD: 0.28,  label: 'India'          },
+  'UK-NG':  { hourlyUSD: 0.21,  label: 'Nigeria'        },
+  'EU-PH':  { hourlyUSD: 0.95,  label: 'Philippines'    },
+  'UAE-PK': { hourlyUSD: 0.18,  label: 'Pakistan'       },
+  'US-PH':  { hourlyUSD: 0.95,  label: 'Philippines'    },
+  'UAE-IN': { hourlyUSD: 0.28,  label: 'India (Kerala)' },
+  'US-CN':  { hourlyUSD: 1.20,  label: 'China'          },
+  'FR-MA':  { hourlyUSD: 0.45,  label: 'Morocco'        },
+  'US-DO':  { hourlyUSD: 0.80,  label: 'Dominican Rep.' },
+  'UK-IN':  { hourlyUSD: 0.28,  label: 'India'          },
+  'CA-IN':  { hourlyUSD: 0.28,  label: 'India'          },
+  'AU-IN':  { hourlyUSD: 0.28,  label: 'India'          },
+  'IT-RO':  { hourlyUSD: 1.50,  label: 'Romania'        },
+  'ES-EC':  { hourlyUSD: 0.55,  label: 'Ecuador'        },
+}
+
+function calcHumanCost(corridorId: string, feeUSD: number): string | null {
+  const w = RECEIVING_COUNTRY_WAGES[corridorId]
+  if (!w || !feeUSD || feeUSD <= 0) return null
+  const hours = feeUSD / w.hourlyUSD
+  if (hours < 1)  return `This fee = ${Math.round(hours * 60)} mins of work at ${w.label} min. wage`
+  if (hours < 8)  return `This fee = ${hours.toFixed(1)} hrs of work at ${w.label} min. wage`
+  const days = hours / 8
+  return `This fee = ${days.toFixed(1)} day${days >= 2 ? 's' : ''} of work at ${w.label} min. wage`
+}
+
+const TREND_ICON = {
+  up:   <TrendingUp   className="w-3.5 h-3.5 text-rr-green" />,
+  down: <TrendingDown className="w-3.5 h-3.5 text-rr-amber" />,
+  flat: <Minus        className="w-3.5 h-3.5 text-rr-muted" />,
+}
+
+type TabType = 'timeline' | 'providers' | 'fxmargin' | 'costincome' | 'channels'
+
+const SECTION_STYLE = {
+  borderBottom: '1px solid rgba(26,45,74,0.7)',
+}
+
+export default function Sidebar({ corridor, channel, sendAmount, onChannelChange, onSendAmountChange }: Props) {
+  const [timeline,   setTimeline]   = useState<TimelineRow[]>([])
+  const [providers,  setProviders]  = useState<Provider[]>([])
+  const [channels,   setChannels]   = useState<ChannelRow[]>([])
+  const [governance, setGovernance] = useState<GovernanceData | null>(null)
+  const [playerData, setPlayerData] = useState<any>(null)
+  const [fxData,     setFxData]     = useState<any[]>([])
+  const [tab,        setTab]        = useState<TabType>('timeline')
+
+  useEffect(() => { getTimeline(corridor?.id).then(setTimeline) },               [corridor?.id])
+  useEffect(() => { getCostAnalysis(sendAmount, corridor?.id).then(setProviders) }, [sendAmount, corridor?.id])
+  useEffect(() => { getChannelComparison(corridor?.id).then(setChannels) },      [corridor?.id])
+  useEffect(() => { getGovernance().then(setGovernance) },                        [])
+  useEffect(() => { getPlayerBreakdown(corridor?.id).then(setPlayerData) },      [corridor?.id])
+  useEffect(() => { getFXMargin(sendAmount, corridor?.id).then(setFxData) },     [sendAmount, corridor?.id])
+
+  const handleDownload = () => {
+    const a = document.createElement('a')
+    a.href     = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/download-sample`
+    a.download = 'remittance_sample_data.csv'
+    a.click()
+  }
+
+  if (!corridor) {
+    return (
+      <div className="h-full flex flex-col items-center justify-center gap-3 text-rr-muted"
+        style={{ background: '#0b1628' }}>
+        <Globe className="w-10 h-10 opacity-20" />
+        <p className="text-sm">Select a corridor on the map</p>
+      </div>
+    )
+  }
+
+  const formalPct   = Math.round(corridor.formal   * 100)
+  const informalPct = Math.round(corridor.informal * 100)
+  const best        = [...providers].sort((a, b) => (a.fee_usd ?? 99) - (b.fee_usd ?? 99))[0]
+  const channelRow  = channels.find(c => c.corridor_id === corridor.id)
+
+  const tabs: { key: TabType; label: string }[] = [
+    { key: 'timeline',   label: 'Volume'     },
+    { key: 'providers',  label: 'Players'    },
+    { key: 'fxmargin',   label: 'FX Margin'  },
+    { key: 'costincome', label: 'Cost/Inc'   },
+    { key: 'channels',   label: 'Channels'   },
+  ]
+
+  return (
+    <div className="h-full overflow-y-auto flex flex-col text-sm"
+      style={{ background: '#0b1628' }}>
+
+      {/* ── SECTION A: Title & High-level Metric ── */}
+      <div className="p-4" style={SECTION_STYLE}>
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-[9px] font-mono text-rr-muted uppercase tracking-[0.14em]">
+            Section A · Active Corridor
+          </p>
+          {TREND_ICON[corridor.trend]}
+        </div>
+        <h2 className="text-rr-cyan font-semibold text-base leading-tight">{corridor.label}</h2>
+        <p className="text-[10px] text-rr-muted mt-0.5">via {corridor.primary_provider} · Payment Rail</p>
+
+        <div className="grid grid-cols-2 gap-2 mt-3">
+          <div className="rounded p-2.5" style={{ background: 'rgba(56,189,248,0.07)', border: '1px solid rgba(56,189,248,0.18)' }}>
+            <p className="text-[9px] text-rr-muted">Annual Volume</p>
+            <p className="text-rr-cyan font-mono font-bold text-sm">
+              ${channel === 'formal'
+                ? (corridor.volume_bn_usd * corridor.formal).toFixed(1)
+                : channel === 'informal'
+                ? (corridor.volume_bn_usd * corridor.informal).toFixed(1)
+                : corridor.volume_bn_usd}B
+            </p>
+            <p className="text-[9px] text-rr-muted mt-0.5">
+              {channel === 'all' ? 'World Bank est.' : `${channel} channel only`}
+            </p>
+          </div>
+          <div className="rounded p-2.5" style={{ background: 'rgba(129,140,248,0.07)', border: '1px solid rgba(129,140,248,0.18)' }}>
+            <p className="text-[9px] text-rr-muted">Avg Transfer Cost</p>
+            <p className={`font-mono font-bold text-sm ${corridor.avg_cost_pct > 4 ? 'text-rr-amber' : 'text-rr-green'}`}>
+              {corridor.avg_cost_pct}%
+            </p>
+            <p className="text-[9px] text-rr-muted mt-0.5">
+              {corridor.avg_cost_pct > 5 ? 'Above G20 target' : corridor.avg_cost_pct > 4 ? 'Near G20 limit' : 'G20 compliant'}
+            </p>
+          </div>
+
+          <div className="col-span-2 rounded p-2.5" style={{ background: 'rgba(52,211,153,0.06)', border: '1px solid rgba(52,211,153,0.18)' }}>
+            <p className="text-[9px] text-rr-muted mb-1.5">Formal vs Informal Channel</p>
+            <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(26,45,74,0.6)' }}>
+              <div className="h-full rounded-full bg-rr-green transition-all duration-700"
+                style={{ width: `${formalPct}%` }} />
+            </div>
+            <div className="flex justify-between text-[10px] mt-1.5">
+              <span className="text-rr-green font-medium">Formal {formalPct}%</span>
+              <span className="text-rr-amber font-medium">Informal {informalPct}%</span>
+            </div>
+            {channelRow && (
+              <div className="flex items-center gap-1.5 mt-1.5">
+                {channelRow.hawala_risk === 'HIGH'
+                  ? <AlertTriangle className="w-3 h-3 text-rr-amber" />
+                  : <CheckCircle   className="w-3 h-3 text-rr-green" />}
+                <span className="text-[10px]" style={{ color: channelRow.hawala_risk === 'HIGH' ? '#F59E0B' : '#34D399' }}>
+                  Hawala risk: {channelRow.hawala_risk}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ── SECTION B: Why This Matters ── */}
+      <div className="p-4" style={SECTION_STYLE}>
+        <div className="flex items-center gap-2 mb-2">
+          <Info className="w-3.5 h-3.5 text-rr-indigo shrink-0" />
+          <p className="text-[9px] font-mono text-rr-muted uppercase tracking-[0.14em]">
+            Section B · Why This Matters
+          </p>
+        </div>
+        <p className="text-rr-muted text-xs leading-relaxed">
+          This corridor moves{' '}
+          <span className="text-rr-text font-semibold">${corridor.volume_bn_usd}B/year</span> — often the{' '}
+          <span className="text-rr-cyan">largest single source of foreign income</span> for receiving households.
+          Every 1% cost reduction saves families millions annually.
+          {(() => {
+            const avgFee = providers.reduce((s, p) => s + (p.fee_usd ?? 0), 0) / (providers.length || 1)
+            const humanCost = calcHumanCost(corridor.id, avgFee)
+            return humanCost ? (
+              <span className="text-rr-amber font-medium"> {humanCost}.</span>
+            ) : null
+          })()}
+          {informalPct > 30 && (
+            <span className="text-rr-amber">
+              {' '}The {informalPct}% informal share signals hawala activity — an AML risk.
+            </span>
+          )}
+          {corridor.avg_cost_pct > 5 && (
+            <span className="text-rr-amber">
+              {' '}Cost exceeds the G20 SDG 5% target.
+            </span>
+          )}
+        </p>
+      </div>
+
+      {/* ── SECTION C: Who Controls the Rail ── */}
+      <div className="p-4" style={SECTION_STYLE}>
+        <div className="flex items-center gap-2 mb-3">
+          <Shield className="w-3.5 h-3.5 text-rr-green shrink-0" />
+          <p className="text-[9px] font-mono text-rr-muted uppercase tracking-[0.14em]">
+            Section C · Who Controls the Rail
+          </p>
+        </div>
+        {governance ? (
+          <>
+            <div className="space-y-2.5">
+              {(governance.regulators ?? []).map(r => (
+                <div key={r.region} className="flex gap-2.5 items-start">
+                  <span className="text-[9px] font-mono px-1.5 py-0.5 rounded shrink-0 mt-0.5"
+                    style={{ background: `${r.color}18`, color: r.color, border: `1px solid ${r.color}35` }}>
+                    {r.region}
+                  </span>
+                  <div>
+                    <p className="text-rr-text text-[11px] font-medium leading-tight">{r.body}</p>
+                    <p className="text-rr-muted text-[10px] mt-0.5">{r.role}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-2 gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(26,45,74,0.6)' }}>
+              <div className="text-center rounded p-2" style={{ background: 'rgba(56,189,248,0.06)', border: '1px solid rgba(56,189,248,0.15)' }}>
+                <p className="text-rr-cyan font-mono font-bold">{governance.swift_coverage_pct}%</p>
+                <p className="text-rr-muted text-[9px]">SWIFT Coverage</p>
+              </div>
+              <div className="text-center rounded p-2" style={{ background: 'rgba(129,140,248,0.06)', border: '1px solid rgba(129,140,248,0.15)' }}>
+                <p className="text-rr-indigo font-mono font-bold">{governance.avg_settlement_days}d</p>
+                <p className="text-rr-muted text-[9px]">Avg Settlement</p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <p className="text-rr-muted text-xs">Loading governance data…</p>
+        )}
+      </div>
+
+      {/* ── SECTION D: Filters & Analysis ── */}
+      <div className="p-4 flex-1" style={SECTION_STYLE}>
+        <div className="flex items-center gap-2 mb-3">
+          <SlidersHorizontal className="w-3.5 h-3.5 text-rr-amber shrink-0" />
+          <p className="text-[9px] font-mono text-rr-muted uppercase tracking-[0.14em]">
+            Section D · Filters & Analysis
+          </p>
+        </div>
+
+        {/* Channel filter */}
+        <div className="mb-3">
+          <p className="text-[10px] text-rr-muted mb-1.5">Channel Filter</p>
+          <div className="flex gap-1">
+            {(['all', 'formal', 'informal'] as const).map(ch => (
+              <button key={ch} onClick={() => onChannelChange(ch)}
+                className={`flex-1 py-1.5 rounded text-[10px] font-medium capitalize transition-all duration-150 ${
+                  channel === ch
+                    ? 'bg-rr-cyan text-rr-bg glow-cyan'
+                    : 'text-rr-muted hover:text-rr-cyan'
+                }`}
+                style={channel !== ch ? { border: '1px solid #1a2d4a' } : {}}>
+                {ch}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Send amount slider */}
+        <div className="mb-3">
+          <div className="flex justify-between items-center mb-1.5">
+            <p className="text-[10px] text-rr-muted">Send Amount</p>
+            <span className="text-rr-cyan font-mono text-xs font-semibold">${sendAmount}</span>
+          </div>
+          <input type="range" min={50} max={2000} step={50} value={sendAmount}
+            onChange={e => onSendAmountChange(+e.target.value)}
+            className="w-full h-1.5 rounded-full cursor-pointer accent-[#38BDF8]"
+            style={{ background: `linear-gradient(to right, #38BDF8 ${((sendAmount-50)/1950)*100}%, #1a2d4a ${((sendAmount-50)/1950)*100}%)` }}
+          />
+          <div className="flex justify-between text-[9px] text-rr-muted mt-1">
+            <span>$50</span><span>$500</span><span>$1,000</span><span>$2,000</span>
+          </div>
+          {best && (() => {
+            const humanCost = calcHumanCost(corridor.id, best.fee_usd ?? 0)
+            return humanCost ? (
+              <div className="mt-2 flex items-start gap-2 p-2 rounded text-[10px]"
+                style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.22)' }}>
+                <AlertTriangle className="w-3 h-3 text-rr-amber shrink-0 mt-0.5" />
+                <span className="text-rr-muted leading-relaxed">
+                  <span className="text-rr-amber font-semibold">{humanCost}</span>
+                  {' '}— best rate ({best.name}). (ILO est.)
+                </span>
+              </div>
+            ) : null
+          })()}
+        </div>
+
+        {/* Tab buttons */}
+        <div className="grid grid-cols-5 gap-0.5 mb-2">
+          {tabs.map(t => (
+            <button key={t.key} onClick={() => setTab(t.key)}
+              className={`py-1.5 rounded text-[8.5px] font-medium transition-all duration-150 ${
+                tab === t.key
+                  ? 'text-rr-cyan'
+                  : 'text-rr-muted hover:text-rr-cyan'
+              }`}
+              style={tab === t.key
+                ? { background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.3)' }
+                : { border: '1px solid #1a2d4a' }}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Chart area */}
+        <div className="h-56">
+          {tab === 'timeline'   && <TimelineChart data={timeline} channel={channel} />}
+          {tab === 'providers'  && <PlayerBreakdownChart data={playerData?.breakdown ?? []} />}
+          {tab === 'fxmargin'   && <FXMarginChart data={fxData} />}
+          {tab === 'channels'   && (
+            <div className="h-full flex flex-col justify-center gap-2 px-1">
+              {channels.slice(0, 4).map(c => (
+                <div key={c.corridor_id}>
+                  <div className="flex justify-between text-[10px] mb-0.5">
+                    <span className="text-rr-muted truncate">{c.corridor_label}</span>
+                    <span className={c.hawala_risk === 'HIGH' ? 'text-rr-amber' : 'text-rr-green'}>{c.hawala_risk}</span>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ background: '#1a2d4a' }}>
+                    <div className="h-full rounded-full bg-rr-green" style={{ width: `${c.formal_pct}%` }} />
+                  </div>
+                  <div className="flex justify-between text-[9px] text-rr-muted mt-0.5">
+                    <span>Formal {c.formal_pct}%</span>
+                    <span>Informal {c.informal_pct}%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Intelligence callouts */}
+        {tab === 'providers' && best && (
+          <div className="mt-2 flex items-start gap-2 p-2 rounded text-[10px]"
+            style={{ background: 'rgba(52,211,153,0.08)', border: '1px solid rgba(52,211,153,0.2)' }}>
+            <Zap className="w-3 h-3 text-rr-green shrink-0 mt-0.5" />
+            <span className="text-rr-muted leading-relaxed">
+              Best rate: <span className="text-rr-green font-semibold">{best.name}</span> — recipient gets{' '}
+              <span className="text-rr-text font-mono">${best.net_received?.toFixed(2)}</span> of ${sendAmount}.
+            </span>
+          </div>
+        )}
+        {tab === 'fxmargin' && (
+          <div className="mt-2 flex items-start gap-2 p-2 rounded text-[10px]"
+            style={{ background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)' }}>
+            <DollarSign className="w-3 h-3 text-rr-amber shrink-0 mt-0.5" />
+            <span className="text-rr-muted leading-relaxed">
+              <span className="text-rr-amber font-semibold">Hidden FX spread</span> is the gap between mid-market rate and what you get.
+            </span>
+          </div>
+        )}
+        {tab === 'timeline' && (
+          <div className="mt-2 flex items-start gap-2 p-2 rounded text-[10px]"
+            style={{ background: 'rgba(56,189,248,0.07)', border: '1px solid rgba(56,189,248,0.18)' }}>
+            <TrendingUp className="w-3 h-3 text-rr-cyan shrink-0 mt-0.5" />
+            <span className="text-rr-muted leading-relaxed">
+              Temporal view 2020–2024. Formal volumes peak in <span className="text-rr-cyan">Dec–Jan</span>.
+              YoY growth avg <span className="text-rr-cyan">4.5%</span>.
+            </span>
+          </div>
+        )}
+        {tab === 'costincome' && (
+          <div className="mt-2 flex items-start gap-2 p-2 rounded text-[10px]"
+            style={{ background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)' }}>
+            <BarChart2 className="w-3 h-3 text-rr-red shrink-0 mt-0.5" />
+            <span className="text-rr-muted leading-relaxed">
+              <span className="text-rr-red font-semibold">CRITICAL</span> corridors = fee is 15%+ of sender income.
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* ── SECTION E: Download ── */}
+      <div className="p-4">
+        <button onClick={handleDownload}
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded text-xs font-semibold
+            text-rr-cyan hover:text-rr-bg hover:bg-rr-cyan transition-all duration-200 glow-cyan"
+          style={{ border: '1px solid #38BDF8' }}>
+          <Download className="w-3.5 h-3.5" />
+          Download Sample Data (.csv)
+        </button>
+        <p className="text-[9px] text-rr-muted text-center mt-1.5">
+          100 rows · World Bank / ECB structure · Mock data
+        </p>
+      </div>
+
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/components/VolumeFlowChart.tsx">
+'use client'
+/**
+ * VolumeFlowChart.tsx
+ * Volume Flow Tracker — total corridor volume ranked.
+ * Horizontal bar chart sorted by volume.
+ */
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts'
+
+interface FlowData {
+  corridor_id:      string
+  corridor_label:   string
+  volume_bn_usd:    number
+  volume_share_pct: number
+  avg_cost_pct:     number
+  trend:            string
+  formal_bn:        number
+  informal_bn:      number
+}
+
+const trendColor = (trend: string) => {
+  if (trend === 'up')   return '#34D399'
+  if (trend === 'down') return '#F87171'
+  return '#94A3B8'
+}
+
+const Tip = ({ active, payload }: any) => {
+  if (!active || !payload?.length) return null
+  const d = payload[0]?.payload as FlowData
+  return (
+    <div className="glass p-3 text-xs min-w-[190px]">
+      <p className="text-rr-cyan font-semibold mb-1.5">{d?.corridor_label}</p>
+      <div className="space-y-0.5">
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Total Volume</span>
+          <span className="font-mono text-rr-text font-semibold">${d?.volume_bn_usd}B</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Global Share</span>
+          <span className="font-mono text-rr-cyan">{d?.volume_share_pct}%</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Formal</span>
+          <span className="font-mono text-rr-green">${d?.formal_bn}B</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Informal</span>
+          <span className="font-mono text-rr-amber">${d?.informal_bn}B</span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Avg Cost</span>
+          <span className={`font-mono ${d?.avg_cost_pct > 5 ? 'text-rr-amber' : 'text-rr-green'}`}>
+            {d?.avg_cost_pct}%
+          </span>
+        </div>
+        <div className="flex justify-between gap-4">
+          <span className="text-rr-muted">Trend</span>
+          <span className="font-mono font-semibold" style={{ color: trendColor(d?.trend) }}>
+            {d?.trend === 'up' ? '↑ Growing' : d?.trend === 'down' ? '↓ Declining' : '→ Flat'}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default function VolumeFlowChart({ data, totalBn }: { data: FlowData[], totalBn: number }) {
+  if (!data?.length) return (
+    <div className="h-full flex items-center justify-center text-rr-muted text-xs">
+      No flow data available
+    </div>
+  )
+
+  // Show top 8 for readability in sidebar
+  const top8 = data.slice(0, 8)
+
+  return (
+    <div className="h-full flex flex-col">
+      <div className="flex justify-between items-center mb-2">
+        <p className="text-[9px] text-rr-muted">Top corridors by volume</p>
+        <p className="text-[9px] font-mono text-rr-cyan font-semibold">
+          Total: ${totalBn}B
+        </p>
+      </div>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={top8}
+          layout="vertical"
+          margin={{ top: 4, right: 8, left: 4, bottom: 0 }}
+        >
+          <XAxis
+            type="number"
+            tick={{ fill: '#64748B', fontSize: 8 }}
+            tickLine={false}
+            tickFormatter={v => `$${v}B`}
+          />
+          <YAxis
+            type="category"
+            dataKey="corridor_id"
+            tick={{ fill: '#64748B', fontSize: 7.5 }}
+            tickLine={false}
+            width={52}
+          />
+          <Tooltip content={<Tip />} cursor={{ fill: 'rgba(56,189,248,0.04)' }} />
+          <Bar dataKey="volume_bn_usd" radius={[0,3,3,0]}>
+            {top8.map((d, i) => (
+              <Cell
+                key={i}
+                fill={d.avg_cost_pct > 5 ? '#FBBF24' : '#38BDF8'}
+                fillOpacity={0.85}
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+      <p className="text-[9px] text-rr-muted text-center mt-1">
+        Cyan = G20 compliant · Amber = above 5% target
+      </p>
+    </div>
+  )
+}
+</file>
+
+<file path="frontend/src/data/mock_data.json">
+{
+  "corridors": [
+    {
+      "id": "US-MX",
+      "label": "USA --> Mexico",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "Mexico",
+      "to_lat": 23.63,
+      "to_lng": -102.55,
+      "volume_bn_usd": 61.1,
+      "avg_cost_pct": 3.1,
+      "trend": "up",
+      "primary_provider": "Remitly",
+      "formal": 0.74,
+      "informal": 0.26,
+      "sender_avg_income_usd": 42000,
+      "heat_intensity": 0.95,
+      "fee_pct_of_income": 8.2
+    },
+    {
+      "id": "US-IN",
+      "label": "USA --> India",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 32.7,
+      "avg_cost_pct": 2.4,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.91,
+      "informal": 0.09,
+      "sender_avg_income_usd": 58000,
+      "heat_intensity": 0.72,
+      "fee_pct_of_income": 4.1
+    },
+    {
+      "id": "UK-NG",
+      "label": "UK --> Nigeria",
+      "from_name": "United Kingdom",
+      "from_lat": 55.37,
+      "from_lng": -3.43,
+      "to_name": "Nigeria",
+      "to_lat": 9.08,
+      "to_lng": 8.67,
+      "volume_bn_usd": 21.3,
+      "avg_cost_pct": 4.8,
+      "trend": "flat",
+      "primary_provider": "WorldRemit",
+      "formal": 0.61,
+      "informal": 0.39,
+      "sender_avg_income_usd": 38000,
+      "heat_intensity": 0.58,
+      "fee_pct_of_income": 12.6
+    },
+    {
+      "id": "EU-PH",
+      "label": "EU --> Philippines",
+      "from_name": "Eurozone",
+      "from_lat": 50.85,
+      "from_lng": 4.35,
+      "to_name": "Philippines",
+      "to_lat": 12.87,
+      "to_lng": 121.77,
+      "volume_bn_usd": 14.9,
+      "avg_cost_pct": 3.7,
+      "trend": "up",
+      "primary_provider": "Western Union",
+      "formal": 0.82,
+      "informal": 0.18,
+      "sender_avg_income_usd": 35000,
+      "heat_intensity": 0.45,
+      "fee_pct_of_income": 10.5
+    },
+    {
+      "id": "UAE-PK",
+      "label": "UAE --> Pakistan",
+      "from_name": "UAE",
+      "from_lat": 23.42,
+      "from_lng": 53.84,
+      "to_name": "Pakistan",
+      "to_lat": 30.37,
+      "to_lng": 69.34,
+      "volume_bn_usd": 18.5,
+      "avg_cost_pct": 5.2,
+      "trend": "down",
+      "primary_provider": "MoneyGram",
+      "formal": 0.55,
+      "informal": 0.45,
+      "sender_avg_income_usd": 28000,
+      "heat_intensity": 0.52,
+      "fee_pct_of_income": 18.7
+    },
+    {
+      "id": "US-PH",
+      "label": "USA --> Philippines",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "Philippines",
+      "to_lat": 12.87,
+      "to_lng": 121.77,
+      "volume_bn_usd": 11.2,
+      "avg_cost_pct": 3.3,
+      "trend": "up",
+      "primary_provider": "Remitly",
+      "formal": 0.86,
+      "informal": 0.14,
+      "sender_avg_income_usd": 45000,
+      "heat_intensity": 0.38,
+      "fee_pct_of_income": 7.3
+    },
+    {
+      "id": "UAE-IN",
+      "label": "UAE --> India",
+      "from_name": "UAE",
+      "from_lat": 23.42,
+      "from_lng": 53.84,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 20.1,
+      "avg_cost_pct": 4.2,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.78,
+      "informal": 0.22,
+      "sender_avg_income_usd": 31000,
+      "heat_intensity": 0.62,
+      "fee_pct_of_income": 13.5
+    },
+    {
+      "id": "US-CN",
+      "label": "USA --> China",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "China",
+      "to_lat": 35.86,
+      "to_lng": 104.19,
+      "volume_bn_usd": 16.4,
+      "avg_cost_pct": 6.1,
+      "trend": "down",
+      "primary_provider": "Western Union",
+      "formal": 0.88,
+      "informal": 0.12,
+      "sender_avg_income_usd": 52000,
+      "heat_intensity": 0.48,
+      "fee_pct_of_income": 11.7
+    },
+    {
+      "id": "FR-MA",
+      "label": "France --> Morocco",
+      "from_name": "France",
+      "from_lat": 46.23,
+      "from_lng": 2.21,
+      "to_name": "Morocco",
+      "to_lat": 31.79,
+      "to_lng": -7.09,
+      "volume_bn_usd": 9.8,
+      "avg_cost_pct": 4.1,
+      "trend": "flat",
+      "primary_provider": "WorldRemit",
+      "formal": 0.72,
+      "informal": 0.28,
+      "sender_avg_income_usd": 32000,
+      "heat_intensity": 0.35,
+      "fee_pct_of_income": 12.8
+    },
+    {
+      "id": "US-DO",
+      "label": "USA --> Dominican Republic",
+      "from_name": "United States",
+      "from_lat": 37.09,
+      "from_lng": -95.71,
+      "to_name": "Dominican Republic",
+      "to_lat": 18.73,
+      "to_lng": -70.16,
+      "volume_bn_usd": 8.2,
+      "avg_cost_pct": 3.5,
+      "trend": "up",
+      "primary_provider": "Remitly",
+      "formal": 0.8,
+      "informal": 0.2,
+      "sender_avg_income_usd": 38000,
+      "heat_intensity": 0.28,
+      "fee_pct_of_income": 9.2
+    },
+    {
+      "id": "UK-IN",
+      "label": "UK --> India",
+      "from_name": "United Kingdom",
+      "from_lat": 55.37,
+      "from_lng": -3.43,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 7.6,
+      "avg_cost_pct": 2.8,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.93,
+      "informal": 0.07,
+      "sender_avg_income_usd": 41000,
+      "heat_intensity": 0.3,
+      "fee_pct_of_income": 6.8
+    },
+    {
+      "id": "CA-IN",
+      "label": "Canada --> India",
+      "from_name": "Canada",
+      "from_lat": 56.13,
+      "from_lng": -106.34,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 6.9,
+      "avg_cost_pct": 2.6,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.94,
+      "informal": 0.06,
+      "sender_avg_income_usd": 47000,
+      "heat_intensity": 0.26,
+      "fee_pct_of_income": 5.5
+    },
+    {
+      "id": "AU-IN",
+      "label": "Australia --> India",
+      "from_name": "Australia",
+      "from_lat": -25.27,
+      "from_lng": 133.77,
+      "to_name": "India",
+      "to_lat": 20.59,
+      "to_lng": 78.96,
+      "volume_bn_usd": 5.4,
+      "avg_cost_pct": 3.0,
+      "trend": "up",
+      "primary_provider": "Wise",
+      "formal": 0.92,
+      "informal": 0.08,
+      "sender_avg_income_usd": 55000,
+      "heat_intensity": 0.22,
+      "fee_pct_of_income": 5.4
+    },
+    {
+      "id": "IT-RO",
+      "label": "Italy --> Romania",
+      "from_name": "Italy",
+      "from_lat": 41.87,
+      "from_lng": 12.56,
+      "to_name": "Romania",
+      "to_lat": 45.94,
+      "to_lng": 24.96,
+      "volume_bn_usd": 4.8,
+      "avg_cost_pct": 2.2,
+      "trend": "flat",
+      "primary_provider": "Wise",
+      "formal": 0.95,
+      "informal": 0.05,
+      "sender_avg_income_usd": 30000,
+      "heat_intensity": 0.18,
+      "fee_pct_of_income": 7.3
+    },
+    {
+      "id": "ES-EC",
+      "label": "Spain --> Ecuador",
+      "from_name": "Spain",
+      "from_lat": 40.46,
+      "from_lng": -3.74,
+      "to_name": "Ecuador",
+      "to_lat": -1.83,
+      "to_lng": -78.18,
+      "volume_bn_usd": 4.2,
+      "avg_cost_pct": 4.5,
+      "trend": "up",
+      "primary_provider": "Western Union",
+      "formal": 0.69,
+      "informal": 0.31,
+      "sender_avg_income_usd": 28000,
+      "heat_intensity": 0.16,
+      "fee_pct_of_income": 16.0
+    }
+  ],
+  "providers": [
+    {
+      "corridor_id": "US-MX",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.8,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.0
+    },
+    {
+      "corridor_id": "US-MX",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.45,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.85
+    },
+    {
+      "corridor_id": "US-MX",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "US-MX",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.9,
+      "fee_flat": 2.99,
+      "speed_hrs": 8,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.4
+    },
+    {
+      "corridor_id": "US-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.35,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.75
+    },
+    {
+      "corridor_id": "US-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.7,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.9
+    },
+    {
+      "corridor_id": "US-IN",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 1.0,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.5
+    },
+    {
+      "corridor_id": "UK-NG",
+      "id": "worldremit",
+      "name": "WorldRemit",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.65,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.4,
+      "fx_margin": 1.8,
+      "advertised_fee_label": "Flat fee",
+      "hidden_spread": 3.6,
+      "total_true_cost_pct": 2.45
+    },
+    {
+      "corridor_id": "UK-NG",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.5,
+      "fee_flat": 5.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.3
+    },
+    {
+      "corridor_id": "UK-NG",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.9,
+      "fee_flat": 2.99,
+      "speed_hrs": 5,
+      "rating": 4.5,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.1
+    },
+    {
+      "corridor_id": "EU-PH",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "EU-PH",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.45,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.85
+    },
+    {
+      "corridor_id": "EU-PH",
+      "id": "worldremit",
+      "name": "WorldRemit",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.7,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.4,
+      "fx_margin": 1.8,
+      "advertised_fee_label": "Flat fee",
+      "hidden_spread": 3.6,
+      "total_true_cost_pct": 2.5
+    },
+    {
+      "corridor_id": "UAE-PK",
+      "id": "moneygram",
+      "name": "MoneyGram",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.5,
+      "fee_flat": 3.99,
+      "speed_hrs": 12,
+      "rating": 3.7,
+      "fx_margin": 2.5,
+      "advertised_fee_label": "Low fee",
+      "hidden_spread": 5.0,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "UAE-PK",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.8,
+      "fee_flat": 5.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.6
+    },
+    {
+      "corridor_id": "UAE-PK",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.55,
+      "fee_flat": 1.0,
+      "speed_hrs": 3,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.95
+    },
+    {
+      "corridor_id": "US-PH",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.75,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.95
+    },
+    {
+      "corridor_id": "US-PH",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.85,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.3,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.35
+    },
+    {
+      "corridor_id": "US-PH",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.3,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.1
+    },
+    {
+      "corridor_id": "UAE-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.4,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.8
+    },
+    {
+      "corridor_id": "UAE-IN",
+      "id": "moneygram",
+      "name": "MoneyGram",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.4,
+      "fee_flat": 3.49,
+      "speed_hrs": 12,
+      "rating": 3.7,
+      "fx_margin": 2.5,
+      "advertised_fee_label": "Low fee",
+      "hidden_spread": 5.0,
+      "total_true_cost_pct": 3.9
+    },
+    {
+      "corridor_id": "UAE-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.8,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.0
+    },
+    {
+      "corridor_id": "US-CN",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.8,
+      "fee_flat": 5.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.6
+    },
+    {
+      "corridor_id": "US-CN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.55,
+      "fee_flat": 1.0,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.95
+    },
+    {
+      "corridor_id": "US-CN",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 1.1,
+      "fee_flat": 2.99,
+      "speed_hrs": 8,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.6
+    },
+    {
+      "corridor_id": "FR-MA",
+      "id": "worldremit",
+      "name": "WorldRemit",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.65,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.4,
+      "fx_margin": 1.8,
+      "advertised_fee_label": "Flat fee",
+      "hidden_spread": 3.6,
+      "total_true_cost_pct": 2.45
+    },
+    {
+      "corridor_id": "FR-MA",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.3,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.1
+    },
+    {
+      "corridor_id": "FR-MA",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.45,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.85
+    },
+    {
+      "corridor_id": "US-DO",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.75,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.95
+    },
+    {
+      "corridor_id": "US-DO",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "US-DO",
+      "id": "xoom",
+      "name": "Xoom (PayPal)",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.85,
+      "fee_flat": 2.49,
+      "speed_hrs": 6,
+      "rating": 4.2,
+      "fx_margin": 1.5,
+      "advertised_fee_label": "PayPal rate",
+      "hidden_spread": 3.0,
+      "total_true_cost_pct": 2.35
+    },
+    {
+      "corridor_id": "UK-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.35,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.75
+    },
+    {
+      "corridor_id": "UK-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.7,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.9
+    },
+    {
+      "corridor_id": "UK-IN",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.2,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.0
+    },
+    {
+      "corridor_id": "CA-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.3,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.7
+    },
+    {
+      "corridor_id": "CA-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.65,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.85
+    },
+    {
+      "corridor_id": "CA-IN",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.1,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 3.9
+    },
+    {
+      "corridor_id": "AU-IN",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.4,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.8
+    },
+    {
+      "corridor_id": "AU-IN",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.75,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.95
+    },
+    {
+      "corridor_id": "AU-IN",
+      "id": "moneygram",
+      "name": "MoneyGram",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.3,
+      "fee_flat": 3.99,
+      "speed_hrs": 12,
+      "rating": 3.7,
+      "fx_margin": 2.5,
+      "advertised_fee_label": "Low fee",
+      "hidden_spread": 5.0,
+      "total_true_cost_pct": 3.8
+    },
+    {
+      "corridor_id": "IT-RO",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.25,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.65
+    },
+    {
+      "corridor_id": "IT-RO",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.6,
+      "fee_flat": 1.49,
+      "speed_hrs": 3,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 1.8
+    },
+    {
+      "corridor_id": "IT-RO",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.0,
+      "fee_flat": 3.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 3.8
+    },
+    {
+      "corridor_id": "ES-EC",
+      "id": "wu",
+      "name": "Western Union",
+      "type": "Traditional",
+      "player_type": "Traditional MTO",
+      "fee_pct": 1.4,
+      "fee_flat": 4.99,
+      "speed_hrs": 24,
+      "rating": 3.9,
+      "fx_margin": 2.8,
+      "advertised_fee_label": "No fee*",
+      "hidden_spread": 5.6,
+      "total_true_cost_pct": 4.2
+    },
+    {
+      "corridor_id": "ES-EC",
+      "id": "wise",
+      "name": "Wise",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.5,
+      "fee_flat": 0.5,
+      "speed_hrs": 2,
+      "rating": 4.8,
+      "fx_margin": 0.4,
+      "advertised_fee_label": "Low flat fee",
+      "hidden_spread": 0.8,
+      "total_true_cost_pct": 0.9
+    },
+    {
+      "corridor_id": "ES-EC",
+      "id": "remitly",
+      "name": "Remitly",
+      "type": "Fintech",
+      "player_type": "Fintech",
+      "fee_pct": 0.85,
+      "fee_flat": 1.99,
+      "speed_hrs": 4,
+      "rating": 4.6,
+      "fx_margin": 1.2,
+      "advertised_fee_label": "Promo rate",
+      "hidden_spread": 2.4,
+      "total_true_cost_pct": 2.05
+    }
+  ],
+  "governance": {
+    "regulators": [
+      {
+        "region": "EU",
+        "body": "European Central Bank (ECB)",
+        "role": "PSD2 Payment Services Directive oversight",
+        "color": "#818CF8"
+      },
+      {
+        "region": "US",
+        "body": "FinCEN / CFPB",
+        "role": "AML compliance & consumer protection",
+        "color": "#38BDF8"
+      },
+      {
+        "region": "South Asia",
+        "body": "RBI / Bangladesh Bank",
+        "role": "Foreign exchange controls & remittance licensing",
+        "color": "#34D399"
+      },
+      {
+        "region": "Africa",
+        "body": "CBN / BCEAO",
+        "role": "FX limits & mobile money regulation",
+        "color": "#F59E0B"
+      }
+    ],
+    "swift_coverage_pct": 92,
+    "avg_settlement_days": 1.4
+  },
+  "player_categories": [
+    {
+      "type": "Fintech",
+      "color": "#38BDF8",
+      "examples": "Wise, Remitly, WorldRemit, Xoom"
+    },
+    {
+      "type": "Traditional MTO",
+      "color": "#818CF8",
+      "examples": "Western Union, MoneyGram"
+    },
+    {
+      "type": "Bank",
+      "color": "#34D399",
+      "examples": "HSBC, Citibank, Standard Chartered"
+    },
+    {
+      "type": "Mobile Money",
+      "color": "#FBBF24",
+      "examples": "M-Pesa, bKash, GCash"
+    }
+  ]
+}
+</file>
+
+<file path="frontend/src/lib/api.ts">
+/**
+ * api.ts – Reusable data adapters
+ *
+ * DATA FLOW (per protocol):
+ *   1. Call FastAPI backend (which calls World Bank / ECB live APIs)
+ *   2. FastAPI auto-falls back to mock_data.json if live APIs fail
+ *   3. Frontend also has its own mock fallback if FastAPI itself is offline
+ *
+ * NEW ENDPOINTS (v4.0):
+ *   - getHeatmap()           → Corridor Heatmap data
+ *   - getCostIncomeOverlay() → Cost vs Income Overlay
+ *   - getPlayerBreakdown()   → Player Breakdown (Fintech/MTO/Bank)
+ *   - getFXMargin()          → FX Margin Visualizer
+ *   - getVolumeFlow()        → Volume Flow Tracker
+ */
+
+import type { Corridor, Provider, TimelineRow, ChannelRow, GovernanceData } from '@/types'
+import MOCK from '@/data/mock_data.json'
+
+const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+
+// ── Safe fetch — falls back to mock if backend offline ───────────────────────
+async function safeFetch<T>(url: string, fallback: T): Promise<T> {
+  try {
+    const res = await fetch(url, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    return await res.json()
+  } catch {
+    console.warn(`[RealRails] Backend offline — frontend mock active for: ${url}`)
+    return fallback
+  }
+}
+
+// ── Frontend mock helpers ─────────────────────────────────────────────────────
+
+function mockTimeline(corridorId?: string): TimelineRow[] {
+  const M = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const rows: TimelineRow[] = []
+  const list = corridorId
+    ? (MOCK.corridors as Corridor[]).filter(c => c.id === corridorId)
+    : (MOCK.corridors as Corridor[])
+  list.forEach(c => {
+    const base = c.volume_bn_usd * 1e9 / 12
+    for (let y = 2020; y <= 2024; y++) {
+      for (let m = 1; m <= 12; m++) {
+        if (y === 2024 && m > 6) break
+        const vol = base * (1 + (y-2020)*0.045) * (1 + 0.15*Math.sin((m-11)*Math.PI/6))
+        ;(['formal','informal'] as const).forEach(ch => {
+          rows.push({
+            year_month: `${y}-${String(m).padStart(2,'0')}`,
+            label:      `${M[m]} '${String(y).slice(2)}`,
+            channel:    ch,
+            volume_usd: Math.round(vol * c[ch]),
+            tx_count:   Math.round(vol * c[ch] / 280),
+            avg_tx_usd: 265,
+          })
+        })
+      }
+    }
+  })
+  return rows
+}
+
+function mockProviders(amount: number, corridorId?: string): Provider[] {
+  const allProviders = MOCK.providers as any[]
+  const filtered = corridorId
+    ? allProviders.filter((p: any) => p.corridor_id === corridorId)
+    : allProviders
+  const list = (filtered.length > 0 ? filtered : allProviders).map(p => ({
+    ...p,
+    fee_usd:      +(p.fee_pct / 100 * amount + p.fee_flat).toFixed(2),
+    net_received: +(amount - (p.fee_pct / 100 * amount + p.fee_flat)).toFixed(2),
+  }))
+  const avg = list.reduce((s, p) => s + (p.fee_usd ?? 0), 0) / list.length
+  return list
+    .map(p => {
+      const d = +(((p.fee_usd! - avg) / avg) * 100).toFixed(1)
+      return { ...p, vs_avg_pct: d, vs_avg_label: `${Math.abs(d).toFixed(1)}% ${d > 0 ? 'above' : 'below'} regional avg` }
+    })
+    .sort((a, b) => (a.fee_usd ?? 0) - (b.fee_usd ?? 0))
+}
+
+function mockChannels(corridorId?: string): ChannelRow[] {
+  const list = corridorId
+    ? (MOCK.corridors as Corridor[]).filter(c => c.id === corridorId)
+    : (MOCK.corridors as Corridor[])
+  return list.map(c => ({
+    corridor_id:    c.id,
+    corridor_label: c.label,
+    formal_bn:      +(c.volume_bn_usd * c.formal).toFixed(2),
+    informal_bn:    +(c.volume_bn_usd * c.informal).toFixed(2),
+    formal_pct:     +(c.formal * 100).toFixed(1),
+    informal_pct:   +(c.informal * 100).toFixed(1),
+    hawala_risk:    (c.informal > 0.35 ? 'HIGH' : c.informal > 0.2 ? 'MEDIUM' : 'LOW') as 'HIGH'|'MEDIUM'|'LOW',
+    g20_compliant:  c.avg_cost_pct <= 5,
+  }))
+}
+
+// ── Mock fallbacks for new features ──────────────────────────────────────────
+
+function mockHeatmap() {
+  return (MOCK.corridors as any[]).map(c => ({
+    corridor_id:    c.id,
+    corridor_label: c.label,
+    from_name:      c.from_name,
+    to_name:        c.to_name,
+    from_lat:       c.from_lat,
+    from_lng:       c.from_lng,
+    to_lat:         c.to_lat,
+    to_lng:         c.to_lng,
+    volume_bn_usd:  c.volume_bn_usd,
+    heat_intensity: c.heat_intensity ?? 0.5,
+    avg_cost_pct:   c.avg_cost_pct,
+    heat_color:     c.heat_intensity >= 0.8 ? '#F87171' :
+                    c.heat_intensity >= 0.6 ? '#FBBF24' :
+                    c.heat_intensity >= 0.4 ? '#38BDF8' : '#818CF8',
+  }))
+}
+
+function mockCostIncome() {
+  return (MOCK.corridors as any[]).map(c => ({
+    corridor_id:           c.id,
+    corridor_label:        c.label,
+    avg_cost_pct:          c.avg_cost_pct,
+    sender_avg_income_usd: c.sender_avg_income_usd ?? 35000,
+    fee_pct_of_income:     c.fee_pct_of_income ?? 10,
+    g20_compliant:         c.avg_cost_pct <= 5,
+    income_bracket:        c.sender_avg_income_usd >= 50000 ? 'High Income' :
+                           c.sender_avg_income_usd >= 35000 ? 'Middle Income' : 'Lower Income',
+    burden_level:          c.fee_pct_of_income >= 15 ? 'CRITICAL' :
+                           c.fee_pct_of_income >= 10 ? 'HIGH' :
+                           c.fee_pct_of_income >= 5  ? 'MEDIUM' : 'LOW',
+  }))
+}
+
+function mockPlayerBreakdown(corridorId?: string) {
+  const allProviders = MOCK.providers as any[]
+  const providers = corridorId
+    ? allProviders.filter(p => p.corridor_id === corridorId)
+    : allProviders
+
+  const groups: Record<string, any> = {}
+  providers.forEach(p => {
+    const pt = p.player_type ?? 'Other'
+    if (!groups[pt]) groups[pt] = { player_type: pt, providers: [], fees: [], margins: [] }
+    groups[pt].providers.push(p.name)
+    groups[pt].fees.push(p.fee_pct)
+    groups[pt].margins.push(p.fx_margin ?? 1.5)
+  })
+
+  const colors: Record<string,string> = {
+    'Fintech': '#38BDF8', 'Traditional MTO': '#818CF8',
+    'Bank': '#34D399', 'Mobile Money': '#FBBF24',
+  }
+
+  return {
+    breakdown: Object.values(groups).map((g: any) => ({
+      player_type:    g.player_type,
+      count:          g.providers.length,
+      providers:      [...new Set(g.providers)],
+      avg_fee_pct:    +(g.fees.reduce((a:number,b:number)=>a+b,0)/g.fees.length).toFixed(2),
+      avg_fx_margin:  +(g.margins.reduce((a:number,b:number)=>a+b,0)/g.margins.length).toFixed(2),
+      avg_total_cost: +(
+        g.fees.reduce((a:number,b:number)=>a+b,0)/g.fees.length +
+        g.margins.reduce((a:number,b:number)=>a+b,0)/g.margins.length
+      ).toFixed(2),
+      color: colors[g.player_type] ?? '#94A3B8',
+    })),
+    categories: (MOCK as any).player_categories ?? [],
+  }
+}
+
+function mockFXMargin(amount: number, corridorId?: string) {
+  const allProviders = MOCK.providers as any[]
+  const providers = corridorId
+    ? allProviders.filter(p => p.corridor_id === corridorId)
+    : allProviders
+
+  return providers.map(p => {
+    const fx_margin     = p.fx_margin ?? 1.5
+    const advertised    = +(p.fee_pct / 100 * amount + p.fee_flat).toFixed(2)
+    const hidden        = +(fx_margin / 100 * amount).toFixed(2)
+    return {
+      provider:         p.name,
+      player_type:      p.player_type ?? 'Other',
+      advertised_fee:   advertised,
+      hidden_spread:    hidden,
+      true_cost:        +(advertised + hidden).toFixed(2),
+      fx_margin_pct:    fx_margin,
+      transparency:     fx_margin < 0.8 ? 'HIGH' : fx_margin < 2.0 ? 'MEDIUM' : 'LOW',
+      advertised_label: p.advertised_fee_label ?? 'Standard fee',
+      data_type:        'synthetic_fx_margin',
+    }
+  }).sort((a:any,b:any) => a.true_cost - b.true_cost)
+}
+
+function mockVolumeFlow() {
+  const corridors = MOCK.corridors as any[]
+  const total = corridors.reduce((s, c) => s + c.volume_bn_usd, 0)
+  return {
+    flows: corridors
+      .map(c => ({
+        corridor_id:      c.id,
+        corridor_label:   c.label,
+        from_name:        c.from_name,
+        to_name:          c.to_name,
+        volume_bn_usd:    c.volume_bn_usd,
+        volume_share_pct: +(c.volume_bn_usd / total * 100).toFixed(1),
+        avg_cost_pct:     c.avg_cost_pct,
+        trend:            c.trend,
+        formal_bn:        +(c.volume_bn_usd * c.formal).toFixed(2),
+        informal_bn:      +(c.volume_bn_usd * c.informal).toFixed(2),
+      }))
+      .sort((a,b) => b.volume_bn_usd - a.volume_bn_usd),
+    total_bn_usd:    +total.toFixed(1),
+    corridor_count:  corridors.length,
+    data_source:     'World Bank RPW + Synthetic estimates',
+  }
+}
+
+// ── Existing exported API functions ──────────────────────────────────────────
+
+export async function getCorridors(): Promise<{ corridors: Corridor[]; dataSource: string }> {
+  const d = await safeFetch<{ corridors: Corridor[]; data_source: string }>(
+    `${API}/api/corridors`,
+    { corridors: MOCK.corridors as Corridor[], data_source: 'frontend_mock' }
+  )
+  return { corridors: d.corridors, dataSource: d.data_source }
+}
+
+export async function getTimeline(corridorId?: string): Promise<TimelineRow[]> {
+  const url = `${API}/api/timeline${corridorId ? `?corridor=${corridorId}` : ''}`
+  return safeFetch(url, mockTimeline(corridorId))
+}
+
+export async function getCostAnalysis(amount: number, corridorId?: string): Promise<Provider[]> {
+  const url = `${API}/api/cost-analysis?amount=${amount}${corridorId ? `&corridor=${corridorId}` : ''}`
+  return safeFetch(url, mockProviders(amount, corridorId))
+}
+
+export async function getChannelComparison(corridorId?: string): Promise<ChannelRow[]> {
+  const url = `${API}/api/informal-vs-formal${corridorId ? `?corridor=${corridorId}` : ''}`
+  return safeFetch(url, mockChannels(corridorId))
+}
+
+export async function getGovernance(): Promise<GovernanceData> {
+  try {
+    const res = await fetch(`${API}/api/governance`, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`HTTP ${res.status}`)
+    const data = await res.json()
+    const gov = data?.governance ?? data
+    if (!gov?.regulators) throw new Error('Missing regulators')
+    return gov as GovernanceData
+  } catch {
+    console.warn('[RealRails] Governance API offline — using mock')
+    const fallback = MOCK.governance as GovernanceData
+    return {
+      regulators:          fallback?.regulators          ?? [],
+      swift_coverage_pct:  fallback?.swift_coverage_pct  ?? 92,
+      avg_settlement_days: fallback?.avg_settlement_days ?? 1.4,
+    }
+  }
+}
+
+export async function getFxRates(): Promise<Record<string, { rate_vs_eur: number; source: string }>> {
+  const d = await safeFetch<{ rates: Record<string, { rate_vs_eur: number; source: string }> }>(
+    `${API}/api/fx-rates`,
+    {
+      rates: {
+        GBP: { rate_vs_eur: 0.856, source: 'frontend_mock' },
+        MXN: { rate_vs_eur: 18.2,  source: 'frontend_mock' },
+        INR: { rate_vs_eur: 89.5,  source: 'frontend_mock' },
+        NGN: { rate_vs_eur: 1620,  source: 'frontend_mock' },
+        PHP: { rate_vs_eur: 61.3,  source: 'frontend_mock' },
+        PKR: { rate_vs_eur: 298.0, source: 'frontend_mock' },
+        AED: { rate_vs_eur: 3.92,  source: 'frontend_mock' },
+      }
+    }
+  )
+  return d.rates
+}
+
+// ── NEW exported API functions (v4.0) ─────────────────────────────────────────
+
+export async function getHeatmap() {
+  return safeFetch(`${API}/api/heatmap`, mockHeatmap())
+}
+
+export async function getCostIncomeOverlay() {
+  return safeFetch(`${API}/api/cost-income-overlay`, mockCostIncome())
+}
+
+export async function getPlayerBreakdown(corridorId?: string) {
+  const url = `${API}/api/player-breakdown${corridorId ? `?corridor=${corridorId}` : ''}`
+  return safeFetch(url, mockPlayerBreakdown(corridorId))
+}
+
+export async function getFXMargin(amount: number, corridorId?: string) {
+  const url = `${API}/api/fx-margin?amount=${amount}${corridorId ? `&corridor=${corridorId}` : ''}`
+  return safeFetch(url, mockFXMargin(amount, corridorId))
+}
+
+export async function getVolumeFlow() {
+  return safeFetch(`${API}/api/volume-flow`, mockVolumeFlow())
+}
+</file>
+
+<file path="frontend/tailwind.config.js">
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        /* ── Cinematic Rail Brief — Financial Rail Deep DNA ── */
+        /* Background: cold obsidian + slate-blue undertone     */
+        /* Luminance < 10% — NOT pure black                     */
+        'rr-bg':       '#060d1a',   // deep navy-obsidian
+        'rr-surface':  '#0b1628',   // slate-blue surface
+        'rr-surface2': '#0f1f35',   // elevated card surface
+        'rr-border':   '#1a2d4a',   // blue-slate border
+        /* Accent — unchanged */
+        'rr-cyan':     '#38BDF8',
+        'rr-indigo':   '#818CF8',
+        'rr-green':    '#34D399',
+        'rr-amber':    '#FBBF24',
+        'rr-red':      '#F87171',
+        'rr-muted':    '#64748B',
+        'rr-text':     '#E2E8F0',
+      },
+      fontFamily: {
+        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'monospace'],
+      },
+      animation: {
+        'slide-in': 'slide-in-right 0.32s cubic-bezier(0.4,0,0.2,1) forwards',
+        'slide-out': 'slide-out-right 0.28s cubic-bezier(0.4,0,0.2,1) forwards',
+      },
+    },
+  },
+  plugins: [],
+}
+</file>
+
+<file path=".gitignore">
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+
+# Environment variables (keep secrets safe!)
+.env
+.env.local
+.env.production
+
+# Misc
+.DS_Store
+*.log
+</file>
+
+</files>

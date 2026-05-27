@@ -1,0 +1,21 @@
+================================================================
+  INFOCREON · REMITTANCE CORRIDOR ANALYZER
+  Selenium UAT Report — Cinematic Rail Brief
+  Architect : Sneha Sunilkumar
+  Target URL: https://poc-remittance-corridor-analyzer.victoriouspebble-4f5f6ab7.centralindia.azurecontainerapps.io
+  Run time  : 2026-05-27 12:11:27
+================================================================
+
+  [PASS]  TC-01 — Visual Load
+           Title='Real Rails – Remittance Corridor Analyzer' | BG ok=True | Map/viz found
+  [PASS]  TC-02 — The Handshake
+           Clicked corridor 'USA --> Mexico' → Intelligence Panel visible
+  [PASS]  TC-03 — The Signature
+           Modal open | Architect name 'Sneha Sunilkumar' verified
+
+────────────────────────────────────────────────────────────────
+  Result : 3/3 tests passed  (100%)
+────────────────────────────────────────────────────────────────
+
+  STATUS : ✅ 100% PASS — Ready for Level 2 handover
+================================================================

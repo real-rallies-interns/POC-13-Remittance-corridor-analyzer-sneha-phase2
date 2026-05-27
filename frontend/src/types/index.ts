@@ -13,35 +13,26 @@ export interface Corridor {
   primary_provider: string
   formal: number
   informal: number
-<<<<<<< HEAD
   // v4.0 new fields
   heat_intensity?:        number
   sender_avg_income_usd?: number
   fee_pct_of_income?:     number
-=======
->>>>>>> e9e8d7d64c44d8596d064f4c839e50640f44b634
 }
 
 export interface Provider {
   id: string
   name: string
   type: string
-<<<<<<< HEAD
   player_type?: string
-=======
->>>>>>> e9e8d7d64c44d8596d064f4c839e50640f44b634
   fee_pct: number
   fee_flat: number
   speed_hrs: number
   rating: number
-<<<<<<< HEAD
   fx_margin?: number
   advertised_fee_label?: string
   hidden_spread?: number
   total_true_cost_pct?: number
   corridor_id?: string
-=======
->>>>>>> e9e8d7d64c44d8596d064f4c839e50640f44b634
   fee_usd?: number
   net_received?: number
   vs_avg_pct?: number
@@ -80,7 +71,6 @@ export interface GovernanceData {
   swift_coverage_pct: number
   avg_settlement_days: number
 }
-<<<<<<< HEAD
 
 // v4.0 new types
 export interface HeatmapEntry {
@@ -143,5 +133,3 @@ export interface VolumeFlowEntry {
   formal_bn:        number
   informal_bn:      number
 }
-=======
->>>>>>> e9e8d7d64c44d8596d064f4c839e50640f44b634

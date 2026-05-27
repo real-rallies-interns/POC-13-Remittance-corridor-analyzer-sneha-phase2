@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable React Strict Mode — prevents Leaflet "Map container already initialized" error
-  // Strict Mode intentionally mounts components twice in development to catch side effects.
-  // This breaks Leaflet which doesn't expect double-mount.
   reactStrictMode: false,
+  output: 'standalone',        // required for Docker multi-stage build
   env: {
     NEXT_PUBLIC_API_URL:      process.env.NEXT_PUBLIC_API_URL      || "http://localhost:8000",
     NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN || "",
